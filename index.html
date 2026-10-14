@@ -540,12 +540,29 @@ let fbPending=0,fbUnsubs=[],localSnapshot=null,uploadDismissed=false;
 function fbConfig(){const c=window.HILMI_FIREBASE_CONFIG;return c&&c.apiKey&&!/PASTE/i.test(c.apiKey)?c:null;}
 async function bootFirebase(cfg){
   cloud.kind='firebase';cloud.note='Connecting…';setSync();
-  try{await loadScript(FB+'firebase-app-compat.js');await Promise.all([loadScript(FB+'firebase-auth-compat.js'),loadScript(FB+'firebase-firestore-compat.js')]);}
-  catch(e){cloud.note='Offline · this device only';setSync();return;}
-  if(!firebase.apps.length)firebase.initializeApp(cfg);
-  const fs=firebase.firestore();
-  try{await fs.enablePersistence({synchronizeTabs:true});}catch(e){/* private mode or another tab: fine */}
-  cloud.auth=firebase.auth();cloud.fs=fs;
+  let A,AU,F;
+  try{[A,AU,F]=await Promise.all([import(FB+'firebase-app.js'),import(FB+'firebase-auth.js'),import(FB+'firebase-firestore.js')]);}
+  catch(e){console.error(e);cloud.note='Offline · this device only';setSync();return;}
+  const app=A.getApps().length?A.getApp():A.initializeApp(cfg);
+  const dbId=cfg.databaseId||'(default)';
+  let fs;
+  try{fs=F.initializeFirestore(app,{localCache:F.persistentLocalCache({tabManager:F.persistentMultipleTabManager()})},dbId);}
+  catch(e){fs=F.getFirestore(app,dbId);}
+  // Small adapter so the rest of the app can use ref.set / ref.onSnapshot style calls
+  const snapDoc=s=>({id:s.id,exists:s.exists(),data:()=>s.data(),metadata:s.metadata});
+  const wrapDoc=r=>({path:r.path,id:r.id,set:d=>F.setDoc(r,d),delete:()=>F.deleteDoc(r),collection:n=>wrapCol(F.collection(r,n)),
+    onSnapshot:(o,n,e)=>F.onSnapshot(r,o,s=>n(snapDoc(s)),e)});
+  const wrapCol=r=>({path:r.path,doc:id=>wrapDoc(F.doc(r,id)),
+    onSnapshot:(o,n,e)=>F.onSnapshot(r,o,s=>n({docs:s.docs.map(snapDoc),metadata:s.metadata}),e)});
+  cloud.fs={doc:path=>wrapDoc(F.doc(fs,path))};
+  const auth=AU.getAuth(app);
+  cloud.auth={
+    onAuthStateChanged:cb=>AU.onAuthStateChanged(auth,cb),
+    signInWithEmailAndPassword:(e,pw)=>AU.signInWithEmailAndPassword(auth,e,pw),
+    createUserWithEmailAndPassword:(e,pw)=>AU.createUserWithEmailAndPassword(auth,e,pw),
+    sendPasswordResetEmail:e=>AU.sendPasswordResetEmail(auth,e),
+    signOut:()=>AU.signOut(auth)
+  };
   cloud.auth.onAuthStateChanged(user=>{
     fbUnsubs.forEach(u=>u());fbUnsubs=[];
     if(user){attachFirebase(user);closeSignIn();}
@@ -569,7 +586,7 @@ function attachFirebase(user){
     tasks=snap.docs.map(d=>normTask(Object.assign({},d.data(),{id:d.id})));
     if(!snap.metadata.fromCache)cloud.loaded=true;
     persistLocal();requestRender();
-  },err=>{syncErr=true;setSync();toast(err&&err.code==='permission-denied'?'This account is not allowed to use this register. Check the email in your Firestore rules.':'Live sync stopped. Reload to reconnect.');}));
+  },err=>{syncErr=true;setSync();console.error(err);toast(err&&err.code==='permission-denied'?'This account is not allowed to use this register. Check the email in your Firestore rules.':(err&&/does not exist|not-found/i.test((err.code||'')+' '+(err.message||''))?'Cloud database not found. Check databaseId in firebase-config.js.':'Live sync stopped. Reload to reconnect.'));}));
 }
 function fbWrite(ref,op,data){
   fbPending++;setSync();
@@ -849,11 +866,11 @@ function openTaskDlg(t){
     <div class="field"><label for="fCat">Category</label><select id="fCat">${optList(settings.categories,t.cat)}</select></div>
     <div class="field"><label for="fDate">Target date</label><input id="fDate" type="date" value="${esc(t.targetDate)}"></div>
   </div>
-  <div class="field"><label for="fSubj">Subject</label><input id="fSubj" value="${esc(t.subj)}" placeholder="Short tagline, e.g. Arngs for CC visit to Bde" style="font-weight:600"></div>
+  <div class="field"><label for="fSubj">Subject</label><input id="fSubj" value="${esc(t.subj)}" placeholder="Short tagline, e.g. Monthly supplies order" style="font-weight:600"></div>
   <div class="field"><label for="fCom">Gist / staff comments</label><textarea id="fCom" rows="5" placeholder="One point per line. Bullets are added on export.">${esc(t.comments)}</textarea><p class="hint">Each line becomes a bullet in the Word export.</p></div>
   <div class="fgrid two">
     <div class="field"><label for="fAs">Assignment</label><select id="fAs">${optList(['Unassigned','Assigned'],t.assignedStatus)}</select></div>
-    <div class="field"><label for="fAssignee">Assignee</label><input id="fAssignee" list="dlContacts2" value="${esc(t.assignee)}" placeholder="e.g. Maj Umar"><datalist id="dlContacts2">${settings.contacts.map(c=>`<option value="${esc(c.name)}"></option>`).join('')}</datalist></div>
+    <div class="field"><label for="fAssignee">Assignee</label><input id="fAssignee" list="dlContacts2" value="${esc(t.assignee)}" placeholder="e.g. Office Assistant"><datalist id="dlContacts2">${settings.contacts.map(c=>`<option value="${esc(c.name)}"></option>`).join('')}</datalist></div>
     <div class="field"><label for="fPrio">Action / priority</label><select id="fPrio">${PRIORITIES.map(p=>`<option value="${p}"${p===t.priority?' selected':''}>${{IMP:'IMP — Important',Pri:'Pri — Priority',Pending:'Pending',Routine:'Routine'}[p]}</option>`).join('')}</select></div>
     <div class="field"><label for="fStatus">Status</label><select id="fStatus">${optList(STATUSES,t.status)}</select></div>
   </div>
@@ -1340,9 +1357,9 @@ function renumber(silent){
 function sampleTasks(){
   const add=(n)=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
   return [
-    {ser:'1',cat:'AQ Br',subj:'Arngs for CC Visit to Bde',comments:'Brief\nRest things\nMenu\nPlantation (place and plant selected)',assignedStatus:'Assigned',assignee:'Maj Umar',priority:'IMP',status:'In Progress',targetDate:add(-2),remarks:'Keep watch / follow the case'},
-    {ser:'2',cat:'Comd Dir',subj:'Vehicle Movement Coordination',comments:'DyComd coming, arng veh for him, suite ltr, inform comd about his arr, fruit basket\nWashroom complaint of 205W',assignedStatus:'Assigned',assignee:'Staff Officer',priority:'Pri',status:'To Do',targetDate:add(2),remarks:'Urgent coordination'},
-    {ser:'3',cat:'Review',subj:'Case of BKIAP Appl',comments:'Case amended by Comd sent to CO 9H for amendment; will be PU accordingly',assignedStatus:'Unassigned',assignee:'',priority:'Pending',status:'To Do',targetDate:add(10),remarks:'Awaiting reply'}
+    {ser:'1',cat:'Adm',subj:'Monthly office supplies order',comments:'Check stock of stationery and printer toner\nPrepare requisition list\nGet approval and place order',assignedStatus:'Assigned',assignee:'Office Assistant',priority:'IMP',status:'In Progress',targetDate:add(-2),remarks:'Example task: delete when done'},
+    {ser:'2',cat:'Misc',subj:'Arrange weekly coordination meeting',comments:'Book the conference room\nCirculate agenda to all sections\nPrepare attendance sheet',assignedStatus:'Assigned',assignee:'Admin Clerk',priority:'Pri',status:'To Do',targetDate:add(2),remarks:'Example task: delete when done'},
+    {ser:'3',cat:'Review',subj:'Review annual leave plan',comments:'Collect leave requests from all staff\nCheck for overlaps in key appointments\nPut up for approval',assignedStatus:'Unassigned',assignee:'',priority:'Routine',status:'To Do',targetDate:add(10),remarks:'Example task: delete when done'}
   ].map(normTask);
 }
 function toggleTheme(){
