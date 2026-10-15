@@ -17,7 +17,7 @@
   --line:#dde1da; --line-strong:#c4cac2;
   --accent:#27594a; --accent-hover:#1f4a3d; --accent-soft:#e3eee9; --on-accent:#ffffff;
   --brass:#8a6420; --band:#f1e7d3; --band-ink:#5c4415;
-  --danger:#b42318; --danger-soft:#fdecea; --danger-wash:#fbe2df; --danger-hover:#f7d0cb; --warn:#a15c07; --warn-soft:#fdf1df; --warn-wash:#fbeccb; --warn-hover:#f8e1ad; --ok:#2c7a4b; --ok-soft:#e5f3ea;
+  --danger:#b42318; --danger-soft:#fdecea; --danger-wash:#fbe2df; --danger-hover:#f7d0cb; --warn:#a15c07; --warn-soft:#fdf1df; --warn-wash:#fbeccb; --today:#c2410c; --today-soft:#ffedd5; --today-wash:#fed3a5; --today-hover:#fdc07f; --snz:#5b6b8c; --snz-soft:#e8ecf4; --warn-hover:#f8e1ad; --ok:#2c7a4b; --ok-soft:#e5f3ea;
   --wa:#1f8f4e;
   --shadow:0 1px 2px rgba(24,33,29,.06),0 8px 24px rgba(24,33,29,.08);
   --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
@@ -30,7 +30,7 @@
   --line:#2b332e; --line-strong:#3a443e;
   --accent:#74b89d; --accent-hover:#8fcab2; --accent-soft:#1f3a30; --on-accent:#0d1f18;
   --brass:#d6ab5c; --band:#2d2719; --band-ink:#e6cd98;
-  --danger:#f27c70; --danger-soft:#3a1b18; --danger-wash:#3d1c19; --danger-hover:#4d231f; --warn:#e7a654; --warn-soft:#382813; --warn-wash:#3a2b10; --warn-hover:#4a3714; --ok:#6cc58f; --ok-soft:#173023;
+  --danger:#f27c70; --danger-soft:#3a1b18; --danger-wash:#3d1c19; --danger-hover:#4d231f; --warn:#e7a654; --warn-soft:#382813; --warn-wash:#3a2b10; --today:#fb923c; --today-soft:#3d2312; --today-wash:#4d2a10; --today-hover:#5e3414; --snz:#9fb0d0; --snz-soft:#232a38; --warn-hover:#4a3714; --ok:#6cc58f; --ok-soft:#173023;
   --wa:#4cc77f; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
 }}
 :root[data-theme="dark"]{
@@ -38,7 +38,7 @@
   --line:#2b332e; --line-strong:#3a443e;
   --accent:#74b89d; --accent-hover:#8fcab2; --accent-soft:#1f3a30; --on-accent:#0d1f18;
   --brass:#d6ab5c; --band:#2d2719; --band-ink:#e6cd98;
-  --danger:#f27c70; --danger-soft:#3a1b18; --danger-wash:#3d1c19; --danger-hover:#4d231f; --warn:#e7a654; --warn-soft:#382813; --warn-wash:#3a2b10; --warn-hover:#4a3714; --ok:#6cc58f; --ok-soft:#173023;
+  --danger:#f27c70; --danger-soft:#3a1b18; --danger-wash:#3d1c19; --danger-hover:#4d231f; --warn:#e7a654; --warn-soft:#382813; --warn-wash:#3a2b10; --today:#fb923c; --today-soft:#3d2312; --today-wash:#4d2a10; --today-hover:#5e3414; --snz:#9fb0d0; --snz-soft:#232a38; --warn-hover:#4a3714; --ok:#6cc58f; --ok-soft:#173023;
   --wa:#4cc77f; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -88,7 +88,8 @@ svg.i{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-widt
 main{padding:16px;padding-block:16px 40px;max-width:1500px;margin:0 auto}
 
 /* ---------- Summary strip ---------- */
-.summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.summary{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-bottom:14px}
+@media (max-width:1180px){.summary{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;transition:border-color .15s}
 .stat:hover{border-color:var(--line-strong)}
 .stat[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
@@ -102,7 +103,9 @@ main{padding:16px;padding-block:16px 40px;max-width:1500px;margin:0 auto}
 
 /* ---------- Filter rail ---------- */
 .rail{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
-.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{white-space:nowrap}
 .seg button{border:0;background:none;padding:6px 11px;border-radius:6px;font-weight:600;font-size:12.5px;color:var(--muted);display:inline-flex;gap:6px;align-items:center}
 .seg button[aria-selected="true"]{background:var(--ink);color:var(--surface)}
 .seg button .c{font:600 10.5px/1 var(--f-mono);padding:3px 5px;border-radius:5px;background:var(--surface-2);color:var(--muted)}
@@ -132,6 +135,9 @@ table.grid{width:100%;border-collapse:collapse;font-size:13px}
 .grid tr.task.is-soon td{background:var(--warn-wash)}
 .grid tr.task.is-soon:hover td{background:var(--warn-hover)}
 .grid tr.task.is-soon td:first-child{box-shadow:inset 3px 0 0 var(--warn)}
+.grid tr.task.is-today td{background:var(--today-wash)}
+.grid tr.task.is-today:hover td{background:var(--today-hover)}
+.grid tr.task.is-today td:first-child{box-shadow:inset 5px 0 0 var(--today)}
 .grid tr.task.is-overdue td{background:var(--danger-wash)}
 .grid tr.task.is-overdue:hover td{background:var(--danger-hover)}
 .grid tr.task.is-overdue td:first-child{box-shadow:inset 3px 0 0 var(--danger)}
@@ -161,7 +167,58 @@ table.grid{width:100%;border-collapse:collapse;font-size:13px}
 .flag{display:inline-block;margin-top:3px;font:700 10px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:3px 5px;border-radius:4px}
 .flag.over{background:var(--danger-soft);color:var(--danger)}
 .flag.soon{background:var(--warn-soft);color:var(--warn)}
-.flag.today{background:var(--warn-soft);color:var(--warn)}
+.flag.today{background:var(--today);color:#fff}
+.due-time{display:inline-flex;align-items:center;gap:4px;margin:3px 4px 0 0;font:600 11.5px var(--f-mono);color:var(--muted)}
+.due-time svg.i{width:12px;height:12px}
+.grid tr.task.is-snoozed td{color:var(--muted)}
+.grid tr.task.is-snoozed .subj,.grid tr.task.is-archived .subj{color:var(--muted)}
+.grid tr.task.is-archived td{background:color-mix(in srgb,var(--surface-2) 60%,transparent)}
+.serpre{color:var(--faint);margin-right:1px}
+.stg{display:inline-block;margin-top:4px;font:700 9.5px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:3px 5px;border-radius:4px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.stg-snoozed{background:var(--snz-soft);color:var(--snz);border-color:transparent}
+.stg-completed{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.stg-archived{background:var(--surface-2);color:var(--muted)}
+.stg-active{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.c-ser .stg{display:block;width:max-content}
+.snz-note{display:flex;gap:4px;align-items:center;margin-top:4px;font-size:11.5px;color:var(--snz)}
+.snz-note svg.i{width:12px;height:12px}
+.snz-note.wake{color:var(--accent);font-weight:600}
+.rowacts .btn.act-go{color:var(--accent)}
+.band-n{font:600 10.5px var(--f-mono);margin-left:6px;padding:2px 6px;border-radius:99px;background:color-mix(in srgb,var(--band-ink) 14%,transparent)}
+.selbar{background:var(--surface-2);padding-block:6px}
+.selbar .selinfo{display:inline-flex;gap:6px;align-items:center}
+.toast{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.toast-btn{min-height:28px;padding:3px 10px}
+.stage-line{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.time-row{gap:12px}
+.time-row input[type=time]{padding:7px 10px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--surface-2);min-height:38px}
+.inline-chk{display:inline-flex;gap:8px;align-items:center;font-weight:600;font-size:13px;cursor:pointer}
+.meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 16px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.meta div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.meta span{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.meta b{font:500 12.5px var(--f-mono);overflow-wrap:anywhere}
+.hist summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--accent)}
+.hist ol{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:12.5px}
+.hist .num{color:var(--faint);font-size:11.5px;margin-right:6px}
+.note.warn{background:var(--warn-soft)}
+.note.warn b{color:var(--warn)}
+.tp-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
+.tp-edit{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tp-prev{position:sticky;top:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tp-edit textarea{font-family:var(--f-mono);font-size:12.5px}
+.wa-prev{max-height:460px;white-space:pre-wrap;font-family:var(--f-body);font-size:13px;line-height:1.5;background:color-mix(in srgb,var(--wa) 9%,var(--surface));border-color:color-mix(in srgb,var(--wa) 30%,var(--line))}
+.ph-list{display:flex;flex-wrap:wrap;gap:5px}
+.ph{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;padding:4px 7px;font:500 11.5px var(--f-mono);color:var(--accent)}
+.ph:hover{border-color:var(--accent)}
+.wa-grp{align-items:flex-start}
+.grp-btns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.grp-subj{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.grp-state{color:var(--ok);font-weight:600}
+.bk-files{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.bk-files .num{font-size:12.5px;overflow-wrap:anywhere}
+.bk-folder .hint b{color:var(--ink)}
+.ct-row .ct-tpl{white-space:nowrap;font-size:12px}
+.stat.today .v{color:var(--today)} .stat.snz .v{color:var(--snz)} .stat.arc .v{color:var(--muted)}
 .rowacts{display:flex;gap:2px;justify-content:flex-end}
 .rowacts .btn{min-height:30px;min-width:30px;padding:5px}
 .rowacts .btn.wa-i{color:var(--wa)}
@@ -215,9 +272,10 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
 
 /* ---------- Phones / iOS ---------- */
 @media (max-width:820px){
-  .summary{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
-  .summary .stat{grid-column:span 2;padding:8px 10px}
-  .summary .stat:nth-child(n+4){grid-column:span 3}
+  .summary{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .summary .stat{padding:7px 8px}
+  .tp-grid{grid-template-columns:1fr}
+  .tp-prev{position:static}
   .stat .v{font-size:19px}
   .stat .k{font-size:9.5px}
 }
@@ -240,6 +298,10 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
   table.grid tr.task.is-soon{box-shadow:inset 3px 0 0 var(--warn);background:var(--warn-wash)}
   table.grid tr.task.is-soon td,table.grid tr.task.is-soon:hover td{background:transparent}
   table.grid tr.task.is-soon td:first-child{box-shadow:none}
+  table.grid tr.task.is-today{box-shadow:inset 5px 0 0 var(--today);background:var(--today-wash)}
+  table.grid tr.task.is-today td,table.grid tr.task.is-today:hover td,table.grid tr.task.is-today td:first-child{background:transparent;box-shadow:none}
+  table.grid tr.task.is-archived td{background:transparent}
+  .c-ser .stg{display:inline-block;margin:0 0 0 8px}
   table.grid tr.task.is-overdue td:first-child{box-shadow:none}
   table.grid tr.task td{display:block;border:0;padding:3px 0;grid-column:2 / 4;max-width:none;min-width:0}
   table.grid tr.task td.c-chk{grid-column:1;grid-row:1 / 3;padding-top:4px}
@@ -280,6 +342,10 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
   <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-hash" viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></symbol>
+  <symbol id="i-snooze" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3 2 6M19 3l3 3"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="5" rx="1"/><path d="M4 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9M10 13h4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
   <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
@@ -306,7 +372,8 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
           <button data-act="columns"><svg class="i"><use href="#i-cols"/></svg>Columns</button>
           <button data-act="categories"><svg class="i"><use href="#i-folder"/></svg>Categories</button>
           <button data-act="contacts"><svg class="i"><use href="#i-users"/></svg>Assignee contacts</button>
-          <button data-act="renumber"><svg class="i"><use href="#i-hash"/></svg>Renumber serials</button>
+          <button data-act="templates"><svg class="i"><use href="#i-msg"/></svg>WhatsApp templates</button>
+          <button data-act="renumber"><svg class="i"><use href="#i-hash"/></svg>Renumber this tab</button>
           <hr>
           <small>Output</small>
           <button data-act="exportfmt"><svg class="i"><use href="#i-gear"/></svg>Word export format</button>
@@ -328,11 +395,14 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
 </div>
 <main>
   <section class="summary" aria-label="Summary">
-    <button class="stat" data-quick="" id="stActive"><span class="k">Active</span><span class="v" id="nActive">0</span></button>
+    <button class="stat" data-tab="active"><span class="k">Active</span><span class="v" id="nActive">0</span></button>
     <button class="stat overdue" data-quick="overdue"><span class="k">Overdue</span><span class="v" id="nOverdue">0</span></button>
-    <button class="stat soon" data-quick="soon"><span class="k">Due in 3 days</span><span class="v" id="nSoon">0</span></button>
+    <button class="stat today" data-quick="today"><span class="k">Due today</span><span class="v" id="nToday">0</span></button>
+    <button class="stat soon" data-quick="soon"><span class="k">Due in 1–3 days</span><span class="v" id="nSoon">0</span></button>
     <button class="stat" data-quick="unassigned"><span class="k">Unassigned</span><span class="v" id="nUnassigned">0</span></button>
-    <button class="stat done" data-quick="done"><span class="k">Completed</span><span class="v" id="nDone">0</span></button>
+    <button class="stat done" data-tab="completed"><span class="k">Completed</span><span class="v" id="nDone">0</span></button>
+    <button class="stat snz" data-tab="snoozed"><span class="k">Snoozed</span><span class="v" id="nSnoozed">0</span></button>
+    <button class="stat arc" data-tab="archived"><span class="k">Archived</span><span class="v" id="nArchived">0</span></button>
   </section>
 
   <div class="banner" id="overdueBanner" hidden>
@@ -342,9 +412,11 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
   <div class="banner info" id="infoBanner" hidden></div>
 
   <div class="rail">
-    <div class="seg" role="tablist" id="statusTabs">
+    <div class="seg" role="tablist" id="statusTabs" aria-label="Task register">
       <button role="tab" data-f="active" aria-selected="true">Active <span class="c" id="cActive">0</span></button>
       <button role="tab" data-f="completed">Completed <span class="c" id="cCompleted">0</span></button>
+      <button role="tab" data-f="snoozed">Snooze <span class="c" id="cSnoozed">0</span></button>
+      <button role="tab" data-f="archived">Archive <span class="c" id="cArchived">0</span></button>
       <button role="tab" data-f="all">All <span class="c" id="cAll">0</span></button>
       <button role="tab" data-f="trash">Trash <span class="c" id="cTrash">0</span></button>
     </div>
@@ -353,22 +425,17 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
 
   <section class="ledger">
     <div class="tools">
-      <div class="search"><svg class="i"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Search subject, gist, assignee, remarks" autocomplete="off"></div>
-      <select class="sel" id="sortBy" aria-label="Sort">
-        <option value="ser">Sort: Serial</option>
-        <option value="date">Sort: Target date</option>
-        <option value="prio">Sort: Priority</option>
-        <option value="cat">Group by category</option>
-      </select>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Search subject, gist, assignee, remarks, serial" autocomplete="off"></div>
+      <select class="sel" id="sortBy" aria-label="Sort by"></select>
+      <select class="sel" id="groupBy" aria-label="Group by"></select>
       <span class="spacer"></span>
-      <div class="bulk">
-        <label class="selinfo" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="chkAll"> <span id="selInfo">0 selected</span></label>
-        <button class="btn ghost" id="btnInvert">Invert</button>
-        <button class="btn" id="btnBulkDone" title="Mark selected completed"><svg class="i"><use href="#i-check"/></svg><span class="lbl-hide">Done</span></button>
-        <button class="btn" id="btnBulkWa" title="WhatsApp selected"><svg class="i"><use href="#i-msg"/></svg><span class="lbl-hide">WhatsApp</span></button>
-        <button class="btn danger" id="btnBulkDel" title="Delete selected"><svg class="i"><use href="#i-trash"/></svg><span class="lbl-hide" id="bulkDelLbl">Trash</span></button>
-        <button class="btn" id="btnPreview"><svg class="i"><use href="#i-eye"/></svg><span class="lbl-hide">Preview</span></button>
-      </div>
+      <button class="btn" id="btnPreview"><svg class="i"><use href="#i-eye"/></svg><span class="lbl-hide">Word preview</span></button>
+    </div>
+    <div class="tools selbar">
+      <label class="selinfo"><input type="checkbox" id="chkAll" aria-label="Select all visible tasks"> <span id="selInfo">0 selected</span></label>
+      <button class="btn ghost" id="btnInvert" title="Invert selection in this view">Invert</button>
+      <button class="btn ghost" id="btnClearSel" title="Clear selection in this view">Clear</button>
+      <div class="bulk" id="bulkActs"></div>
     </div>
     <div class="tablewrap">
       <table class="grid">
@@ -389,11 +456,20 @@ window.addEventListener('error',function(e){try{var d=document.createElement('di
 (function(){
 'use strict';
 /* ================= Constants ================= */
+const SCHEMA=10;
 const DOCX_URL='https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js';
 const MAMMOTH_URL='https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
 const PRIORITIES=['IMP','Pri','Pending','Routine'];
 const PRIO_RANK={IMP:0,Pri:1,Pending:2,Routine:3};
+const PRIO_LONG={IMP:'IMP (Important)',Pri:'Pri (Priority)',Pending:'Pending',Routine:'Routine'};
 const STATUSES=['To Do','In Progress','Completed'];
+// Lifecycle stages. Trash is a separate flag (deleted:true) so a restored task returns to the stage it came from.
+const STAGES=['active','completed','snoozed','archived'];
+const STAGE_LABEL={active:'Active',completed:'Completed',snoozed:'Snoozed',archived:'Archived'};
+// Which stored field holds the display serial for each register. Active and Completed share `ser`
+// (a task is only ever in one of them); Snooze and Archive have their own independent sequences.
+const SER_KEY={active:'ser',completed:'ser',snoozed:'serSnooze',archived:'serArchive'};
+const SER_PREFIX={active:'',completed:'',snoozed:'S',archived:'A'};
 const DEFAULT_COLUMNS=[
   {id:'ser',label:'Ser',visible:true,default:true},
   {id:'cat',label:'Cat',visible:true,default:true},
@@ -402,27 +478,49 @@ const DEFAULT_COLUMNS=[
   {id:'assigned',label:'Assigned / Assignee',visible:true,default:true},
   {id:'action',label:'Action / Status',visible:true,default:true},
   {id:'targetDate',label:'Target Date',visible:true,default:true},
-  {id:'remarks',label:'Remarks',visible:true,default:true}
+  {id:'remarks',label:'Remarks',visible:true,default:true},
+  {id:'created',label:'Entered',visible:false,default:true}
 ];
 const DEFAULT_CATEGORIES=['Comd Dir','AQ Br','APEls','Adm','Misc','Own','Review'];
-// Fields available to Word export & WhatsApp messages
+// Fields available to Word export
 const FIELD_DEFS={
   ser:{label:'Ser'}, cat:{label:'Cat'}, subj:{label:'Subj'}, comments:{label:'Gist/ Staff Comments'},
   assignee:{label:'Assignee'}, action:{label:'Action'}, status:{label:'Status'},
-  targetDate:{label:'Target Date'}, remarks:{label:'Remarks'}
+  targetDate:{label:'Target Date'}, remarks:{label:'Remarks'}, created:{label:'Entered'}
 };
 const LS=(()=>{try{const k='__t';localStorage.setItem(k,'1');localStorage.removeItem(k);return localStorage;}catch(e){return null;}})();
 function lsGet(k){try{return LS?JSON.parse(LS.getItem(k)):null;}catch(e){return null;}}
 function lsSet(k,v){try{LS&&LS.setItem(k,JSON.stringify(v));}catch(e){}}
 
+/* ---------- WhatsApp template defaults ---------- */
+const WA_TYPES={assign:'Task assignment',followup:'Follow-up',overdue:'Overdue reminder',completion:'Completion update'};
+const WA_ITEM_DEFAULT='{n} *{subj}*\nDetails: {comments}\nTarget Date: {targetDate} {targetTime}\nAction/Status: {action}\nRemarks: {remarks}';
+function defaultWaTemplates(){return{
+  assign:{intro:'Dear {name},\nPlease take necessary action on the following task(s):',item:WA_ITEM_DEFAULT,closing:'Please confirm once done.\n\nRegards,\n{signature}'},
+  followup:{intro:'Dear {name},\nFollowing up on the task(s) below. Please share the latest progress:',item:WA_ITEM_DEFAULT,closing:'Regards,\n{signature}'},
+  overdue:{intro:'Dear {name},\n*Reminder:* the following task(s) are past their target date:',item:'{n} *{subj}*\nTarget Date: {targetDate} {targetTime} ({due})\nDetails: {comments}\nRemarks: {remarks}',closing:'Please update the status at the earliest.\n\nRegards,\n{signature}'},
+  completion:{intro:'Dear {name},\nThe following task(s) have been marked as completed:',item:'{n} *{subj}*\nCompleted: {completedOn}\nRemarks: {remarks}',closing:'Thank you.\n\nRegards,\n{signature}'}
+};}
+function defaultWa(){return{signature:'',numbering:'1.',separator:'blank',dateFmt:'long',previewSingle:false,templates:defaultWaTemplates()};}
+const OLD_WA_INTRO='Dear {name}, please action the following:';
+const OLD_WA_FIELDS=['subj','comments','targetDate','action','remarks'];
+const WA_FIELD_LINES={ser:'Ser: {ser}',cat:'Category: {cat}',comments:'Details: {comments}',assignee:'Assignee: {assignee}',action:'Action: {action}',status:'Status: {status}',targetDate:'Target Date: {targetDate} {targetTime}',remarks:'Remarks: {remarks}'};
+function itemFromFields(fields){
+  const lines=['{n} '+(fields.includes('ser')?'Ser {ser} – ':'')+(fields.includes('subj')?'*{subj}*':'')];
+  fields.forEach(f=>{if(f==='ser'||f==='subj')return;if(WA_FIELD_LINES[f])lines.push(WA_FIELD_LINES[f]);else lines.push(f+': {'+f+'}');});
+  return lines.join('\n');
+}
+
 function defaultSettings(){return{
+  schema:SCHEMA,
   columns:JSON.parse(JSON.stringify(DEFAULT_COLUMNS)),
   categories:DEFAULT_CATEGORIES.slice(),
   contacts:[],
   countryCode:'92',
-  waFields:['subj','comments','targetDate','action','remarks'],
-  waIntro:'Dear {name}, please action the following:',
+  waFields:OLD_WA_FIELDS.slice(),
+  waIntro:OLD_WA_INTRO,
   waSign:'',
+  wa:defaultWa(),
   exportConfig:{docTitle:'DAILY UPDATE - A&Q BR',dateLabel:'',topHeader:'',footerNote:'',font:'Arial',headerBg:'#E2E8F0',bandBg:'#F5E6D3',fields:['ser','subj','comments','action','remarks'],landscape:false}
 };}
 
@@ -432,7 +530,8 @@ let settings=defaultSettings();
 let mode='local';           // 'local' | 'cloud'
 let cloud={db:null,uid:null,ws:null,col:null,loaded:false};
 let downloadsNs=null;
-const ui={filter:'active',cat:'ALL',quick:'',sort:'ser',selected:new Set(),expanded:new Set()};
+// Per-device view preferences (kept in this browser only, never synced)
+const ui={filter:'active',cat:'ALL',quick:'',sort:'ser-asc',group:'none',selected:new Set(),expanded:new Set()};
 let pendingRender=false;
 
 const $=s=>document.querySelector(s);
@@ -440,29 +539,164 @@ const $$=s=>Array.from(document.querySelectorAll(s));
 function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function uidGen(){return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
 function icon(n){return `<svg class="i"><use href="#i-${n}"/></svg>`;}
+function plain(o){return JSON.parse(JSON.stringify(o));}
+
+/* ---------- Dates: always local calendar days, never UTC ---------- */
+function localYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function addDaysYMD(n){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return localYMD(d);}
 function todayMs(){const d=new Date();d.setHours(0,0,0,0);return d.getTime();}
 function dateMs(s){if(!s)return null;const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);if(!m)return null;return new Date(+m[1],+m[2]-1,+m[3]).getTime();}
-function fmtDate(s){const ms=dateMs(s);if(ms==null)return s||'';return new Date(ms).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtDate(s,short){const ms=dateMs(s);if(ms==null)return s||'';const d=new Date(ms);
+  return short?String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear():d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtStamp(ms){if(!ms)return '';const d=new Date(typeof ms==='string'?Date.parse(ms):ms);if(isNaN(d))return '';return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+', '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+function validTime(s){return /^([01]\d|2[0-3]):[0-5]\d$/.test(String(s||''))?String(s):'';}
+function fmtDue(t,short){if(!t.targetDate)return '';return fmtDate(t.targetDate,short)+(t.targetTime?', '+t.targetTime:'');}
+// Whole calendar days between today and the target date (DST-safe because of Math.round on local midnights)
 function daysLeft(t){const ms=dateMs(t.targetDate);if(ms==null)return null;return Math.round((ms-todayMs())/86400000);}
-function isDone(t){return t.status==='Completed';}
-function isOverdue(t){if(t.deleted||isDone(t))return false;const d=daysLeft(t);return d!==null&&d<0;}
-function isSoon(t){if(t.deleted||isDone(t))return false;const d=daysLeft(t);return d!==null&&d>=0&&d<=3;}
-function serNum(t){const n=parseFloat(t.ser);return isNaN(n)?1e9:n;}
+// Sort key: date, then all-day before timed tasks on the same day
+function dueKey(t){const ms=dateMs(t.targetDate);if(ms==null)return null;if(!t.targetTime)return ms;const [h,m]=t.targetTime.split(':').map(Number);return ms+(h*60+m+1)*60000;}
 function todayLabel(){return 'Updated: '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
 
+/* ================= Task model & lifecycle ================= */
+function isDone(t){return t.status==='Completed';}
+// Single source of truth for where a task lives. `stage` only records the two set-aside stages;
+// Active vs Completed is still decided by the work status, exactly as before.
+function stageOf(t){if(t.stage==='snoozed')return 'snoozed';if(t.stage==='archived')return 'archived';return isDone(t)?'completed':'active';}
+function inStage(t,s){return !t.deleted&&stageOf(t)===s;}
+// Central due-date classification (only for live Active tasks)
+function dueInfo(t){
+  if(!t||t.deleted||stageOf(t)!=='active')return null;
+  const d=daysLeft(t);
+  if(d===null)return {cls:'none',d:null};
+  if(d<0)return {cls:'overdue',d};
+  if(d===0)return {cls:'today',d};
+  if(d<=3)return {cls:'soon',d};
+  return {cls:'later',d};
+}
+function dueCls(t){const i=dueInfo(t);return i?i.cls:'';}
+function isOverdue(t){return dueCls(t)==='overdue';}
+function isToday(t){return dueCls(t)==='today';}
+function isSoon(t){return dueCls(t)==='soon';}
+function dueWords(t){const i=dueInfo(t);if(!i||i.d===null)return '';const d=i.d;
+  if(d<0)return `overdue by ${-d} day${d===-1?'':'s'}`;if(d===0)return 'due today';if(d===1)return 'due tomorrow';return `due in ${d} days`;}
+
+function serVal(v){const n=parseFloat(v);return isNaN(n)?1e9:n;}
+function dispSer(t){return String(t[SER_KEY[stageOf(t)]]||'');}
+function serLabel(t){const s=dispSer(t);return s?SER_PREFIX[stageOf(t)]+s:'';}
+function serNum(t){return serVal(dispSer(t));}
+function nextSerIn(stage,self){const k=SER_KEY[stage];const n=tasks.filter(t=>t!==self&&inStage(t,stage)).map(t=>serVal(t[k])).filter(x=>x<1e9);return String((n.length?Math.max(...n):0)+1);}
+function serFree(stage,v,self){if(!v&&v!==0)return false;const k=SER_KEY[stage];return !tasks.some(t=>t!==self&&inStage(t,stage)&&String(t[k])===String(v));}
+// Give a task a serial in its (new) register: keep the preferred number if nobody else in that register uses it
+function placeSer(t,stage,preferred){const k=SER_KEY[stage];t[k]=(preferred&&serFree(stage,preferred,t))?String(preferred):nextSerIn(stage,t);}
+function logEv(t,ev,extra){t.history=(Array.isArray(t.history)?t.history:[]).concat([Object.assign({at:new Date().toISOString(),ev},extra||{})]).slice(-40);}
+function who(){return (cloud.user&&cloud.user.email)||'';}
+
+function deriveCreated(id){
+  id=String(id||'');let m=/^t([0-9a-z]{8})/.exec(id);
+  if(m){const v=parseInt(m[1],36);if(v>1.5e12&&v<4.2e12)return v;}
+  if(/^\d{13}$/.test(id)){const v=+id;if(v>1.5e12&&v<4.2e12)return v;}
+  return null;
+}
 function normTask(t){
-  const o=Object.assign({id:uidGen(),ser:'',cat:'Review',subj:'',comments:'',assignedStatus:'Unassigned',assignee:'',priority:'IMP',status:'To Do',targetDate:'',remarks:'',deleted:false,createdAt:Date.now(),updatedAt:Date.now()},t||{});
+  const isNew=!t||!t.id;
+  const o=Object.assign({id:uidGen(),ser:'',cat:'Review',subj:'',comments:'',assignedStatus:'Unassigned',assignee:'',priority:'IMP',status:'To Do',targetDate:'',targetTime:'',remarks:'',deleted:false},t||{});
   o.id=String(o.id).replace(/[^A-Za-z0-9_\-.~:@+]/g,'_')||uidGen();
   if(o.assignee==='-')o.assignee='';
+  if(o.stage!=='snoozed'&&o.stage!=='archived')o.stage='open';
+  if(o.stage==='archived'&&o.status!=='Completed')o.status='Completed'; // archive only ever holds completed work
+  o.targetTime=o.targetDate?validTime(o.targetTime):'';
+  o.snoozeUntil=(o.stage==='snoozed'&&/^\d{4}-\d{2}-\d{2}$/.test(String(o.snoozeUntil||'')))?o.snoozeUntil:'';
+  if(o.createdAt==null)o.createdAt=isNew?Date.now():deriveCreated(o.id);
+  if(o.updatedAt==null)o.updatedAt=isNew?o.createdAt:null;
+  if(o.ser!=null)o.ser=String(o.ser);
+  if(!Array.isArray(o.history))o.history=[];
   return o;
 }
 function mergeSettings(s){
   const d=defaultSettings();if(!s||typeof s!=='object')return d;
   const out=Object.assign(d,s);out.exportConfig=Object.assign(defaultSettings().exportConfig,s.exportConfig||{});
   if(!Array.isArray(out.columns)||!out.columns.length)out.columns=d.columns;
+  // add any built-in columns introduced since the settings were saved (hidden, so nothing changes visually)
+  DEFAULT_COLUMNS.forEach(c=>{if(!out.columns.some(x=>x.id===c.id))out.columns.push(Object.assign({},c,{visible:false}));});
   if(!Array.isArray(out.categories)||!out.categories.length)out.categories=DEFAULT_CATEGORIES.slice();
   if(!Array.isArray(out.contacts))out.contacts=[];
+  // WhatsApp: migrate the older single-intro/field settings into the template system once
+  if(!s.wa||typeof s.wa!=='object'){
+    const wa=defaultWa();
+    wa.signature=s.waSign||'';
+    if(s.waIntro&&s.waIntro!==OLD_WA_INTRO)wa.templates.assign.intro=s.waIntro;
+    if(Array.isArray(s.waFields)&&s.waFields.join()!==OLD_WA_FIELDS.join())wa.templates.assign.item=itemFromFields(s.waFields);
+    out.wa=wa;
+  }else{
+    const wa=Object.assign(defaultWa(),s.wa);const dt=defaultWaTemplates();
+    wa.templates=Object.assign({},dt,s.wa.templates||{});
+    Object.keys(dt).forEach(k=>{wa.templates[k]=Object.assign({},dt[k],wa.templates[k]||{});});
+    out.wa=wa;
+  }
+  out.schema=SCHEMA;
   return out;
+}
+
+/* ---------- Lifecycle transitions (pure state changes; callers save) ---------- */
+const MOVES={
+  complete:  {label:'Complete',            done:'marked completed',   from:['active','snoozed'], to:'completed', why:'only active or snoozed tasks can be completed'},
+  reopen:    {label:'Return to Active',    done:'returned to Active', from:['completed'],        to:'active',    why:'only completed tasks can be returned to Active'},
+  snooze:    {label:'Snooze',              done:'snoozed',            from:['active'],           to:'snoozed',   why:'only active tasks can be snoozed'},
+  reactivate:{label:'Reactivate',          done:'reactivated',        from:['snoozed'],          to:'active',    why:'only snoozed tasks can be reactivated'},
+  archive:   {label:'Archive',             done:'archived',           from:['completed'],        to:'archived',  why:'only completed tasks can be archived'},
+  unarchive: {label:'Restore to Completed',done:'restored to Completed',from:['archived'],       to:'completed', why:'only archived tasks can be restored to Completed'}
+};
+function canMove(t,m){return !!t&&!t.deleted&&MOVES[m].from.includes(stageOf(t));}
+// Destination tab -> the move that gets a task there from its current stage
+function moveTo(t,dest){
+  const s=stageOf(t);if(t.deleted||s===dest)return null;
+  const map={active:{completed:'reopen',snoozed:'reactivate'},completed:{active:'complete',snoozed:'complete',archived:'unarchive'},snoozed:{active:'snooze'},archived:{completed:'archive'}};
+  return (map[dest]||{})[s]||null;
+}
+function applyMove(t,m,opts){
+  opts=opts||{};
+  if(!canMove(t,m))return false;
+  const from=stageOf(t),now=new Date().toISOString(),oldSer=serLabel(t);
+  const ev={from,to:MOVES[m].to,ser:oldSer};
+  switch(m){
+    case 'complete':
+      if(t.stage==='snoozed'){ev.reason=t.snoozeReason||undefined;t.stage='open';t.serSnooze='';t.snoozeReason='';t.snoozeUntil='';}
+      if(!isDone(t))t.prevStatus=t.status;
+      t.status='Completed';t.completedAt=now;
+      placeSer(t,'completed',t.ser);break;
+    case 'reopen':
+      t.status=(t.prevStatus&&t.prevStatus!=='Completed')?t.prevStatus:'In Progress';
+      placeSer(t,'active',t.ser);break;
+    case 'snooze':
+      t.stage='snoozed';t.snoozedAt=now;t.snoozedBy=who();t.snoozedFromSer=t.ser||'';
+      if(opts.reason!=null)t.snoozeReason=opts.reason;
+      t.snoozeUntil=opts.until&&dateMs(opts.until)!=null?opts.until:'';
+      ev.reason=t.snoozeReason||undefined;ev.until=t.snoozeUntil||undefined;
+      t.serSnooze='';placeSer(t,'snoozed',null);break;
+    case 'reactivate':
+      ev.reason=t.snoozeReason||undefined;ev.until=t.snoozeUntil||undefined;if(opts.auto)ev.auto=true;
+      t.stage='open';t.serSnooze='';t.snoozeReason='';t.snoozeUntil='';t.reactivatedAt=now;
+      placeSer(t,'active',t.ser);break;
+    case 'archive':
+      t.stage='archived';t.archivedAt=now;t.archivedFromSer=t.ser||'';
+      t.serArchive='';placeSer(t,'archived',null);break;
+    case 'unarchive':
+      t.stage='open';t.serArchive='';
+      placeSer(t,'completed',t.ser);break;
+  }
+  ev.newSer=serLabel(t);
+  Object.keys(ev).forEach(k=>ev[k]===undefined&&delete ev[k]);
+  logEv(t,m,ev);
+  return true;
+}
+// Work-status change from a dropdown or the edit dialog, routed through the lifecycle rules
+function setStatus(t,val){
+  if(t.status===val)return;
+  const s=stageOf(t);
+  if(s==='archived')return; // archived tasks stay completed; restore them first
+  if(val==='Completed'){applyMove(t,'complete');return;}
+  if(s==='completed'){t.prevStatus=val;applyMove(t,'reopen');t.status=val;return;}
+  t.status=val;
 }
 
 /* ================= Persistence ================= */
@@ -475,7 +709,6 @@ function setSync(){
   if(inflight.size||queued.size||fbPending){chip.dataset.s='saving';txt.textContent='Saving…';return;}
   chip.dataset.s='cloud';txt.textContent='Synced to cloud';
 }
-function plain(o){return JSON.parse(JSON.stringify(o));}
 async function runWrite(key,ref,op,data){
   inflight.set(key,true);setSync();
   try{
@@ -520,23 +753,21 @@ function saveSettings(){
   persistLocal();
   if(mode!=='cloud')return;
   clearTimeout(settingsTimer);
-  settingsTimer=setTimeout(()=>queueWrite(cloud.ws,'set',{settings:plain(settings),v:9}),400);
+  settingsTimer=setTimeout(()=>queueWrite(cloud.ws,'set',{settings:plain(settings),v:SCHEMA}),400);
 }
 
 function loadLocal(){
   let t=lsGet('hilmi_v9_tasks'), s=lsGet('hilmi_v9_settings');
   if(!t){ // migrate from the earlier version stored on this device
     const old=lsGet('hilmi_tasks_v8');
-    if(old){t=old;s={columns:lsGet('hilmi_columns_v8'),categories:lsGet('hilmi_categories_v8')};
-      if(s.columns)s.columns=s.columns.map(c=>c.id==='assigned'?Object.assign({},c,{label:c.label}):c);}
+    if(old){t=old;s={columns:lsGet('hilmi_columns_v8'),categories:lsGet('hilmi_categories_v8')};}
   }
   tasks=(t||[]).map(normTask);
   settings=mergeSettings(s);
 }
-
 /* ---------- Self-hosted sync: Firebase (Auth + Firestore) ---------- */
 const FB='https://www.gstatic.com/firebasejs/10.12.2/';
-let fbPending=0,fbUnsubs=[],localSnapshot=null,uploadDismissed=false;
+let wakeTimer=null,fbPending=0,fbUnsubs=[],localSnapshot=null,uploadDismissed=false;
 function fbConfig(){const c=window.HILMI_FIREBASE_CONFIG;return c&&c.apiKey&&!/PASTE/i.test(c.apiKey)?c:null;}
 async function bootFirebase(cfg){
   cloud.kind='firebase';cloud.note='Connecting…';setSync();
@@ -586,6 +817,7 @@ function attachFirebase(user){
     tasks=snap.docs.map(d=>normTask(Object.assign({},d.data(),{id:d.id})));
     if(!snap.metadata.fromCache)cloud.loaded=true;
     persistLocal();requestRender();
+    clearTimeout(wakeTimer);wakeTimer=setTimeout(wakeDueTasks,400);
   },err=>{syncErr=true;setSync();console.error(err);toast(err&&err.code==='permission-denied'?'This account is not allowed to use this register. Check the email in your Firestore rules.':(err&&/does not exist|not-found/i.test((err.code||'')+' '+(err.message||''))?'Cloud database not found. Check databaseId in firebase-config.js.':'Live sync stopped. Reload to reconnect.'));}));
 }
 function fbWrite(ref,op,data){
@@ -649,65 +881,149 @@ async function bootCloud(){
     tasks=snap.docs.map(d=>normTask(Object.assign({},d.data(),{id:d.id})));
     if(!snap.metadata.fromCache)cloud.loaded=true;
     persistLocal();requestRender();
+    clearTimeout(wakeTimer);wakeTimer=setTimeout(wakeDueTasks,400);
   },err=>{syncErr=true;setSync();toast('Live sync stopped. Reload the page to reconnect.');});
 }
 
+/* ================= Sorting & grouping ================= */
+const SORTS=[
+  {v:'ser-asc',l:'Serial no. (low → high)'},
+  {v:'ser-desc',l:'Serial no. (high → low)'},
+  {v:'due-asc',l:'Target date (earliest first)'},
+  {v:'due-desc',l:'Target date (latest first)'},
+  {v:'overdue',l:'Overdue first',tabs:['active','all']},
+  {v:'created-desc',l:'Date of entry (newest first)'},
+  {v:'created-asc',l:'Date of entry (oldest first)'},
+  {v:'updated-desc',l:'Last updated (newest first)'},
+  {v:'updated-asc',l:'Last updated (oldest first)'},
+  {v:'prio-desc',l:'Priority (highest first)'},
+  {v:'prio-asc',l:'Priority (lowest first)'},
+  {v:'assignee',l:'Assignee (A–Z)'},
+  {v:'cat',l:'Category (A–Z)'},
+  {v:'subj',l:'Subject (A–Z)'},
+  {v:'status',l:'Status'},
+  {v:'completed-desc',l:'Recently completed',tabs:['completed','archived','all']},
+  {v:'snoozed-desc',l:'Snoozed date (newest first)',tabs:['snoozed','all']},
+  {v:'snoozed-asc',l:'Snoozed date (oldest first)',tabs:['snoozed','all']},
+  {v:'archived-desc',l:'Archive date (newest first)',tabs:['archived','all']},
+  {v:'archived-asc',l:'Archive date (oldest first)',tabs:['archived','all']},
+  {v:'wake-asc',l:'Wake-up date (soonest first)',tabs:['snoozed','all']}
+];
+const GROUPS=[['none','No grouping'],['assignee','Assignee'],['cat','Category'],['status','Status'],['prio','Priority'],['due','Target date'],['created-month','Entry month'],['created-day','Entry day']];
+const LEGACY_SORT={ser:'ser-asc',date:'due-asc',prio:'prio-desc',cat:'ser-asc'};
+function sortAvailable(v,tab){const s=SORTS.find(x=>x.v===v);return !!s&&(!s.tabs||s.tabs.includes(tab)||tab==='trash');}
+function effectiveSort(){return sortAvailable(ui.sort,ui.filter)?ui.sort:'ser-asc';}
+function tsOf(v){if(v==null||v==='')return null;const n=typeof v==='number'?v:Date.parse(v);return isNaN(n)?null:n;}
+function cmpNum(a,b,desc){if(a==null&&b==null)return 0;if(a==null)return 1;if(b==null)return -1;return desc?b-a:a-b;}
+function cmpStr(a,b){a=String(a||'').toLowerCase();b=String(b||'').toLowerCase();if(!a&&!b)return 0;if(!a)return 1;if(!b)return -1;return a.localeCompare(b);}
+function statusRank(t){const s=stageOf(t);if(s==='active')return t.status==='In Progress'?0:1;return {snoozed:2,completed:3,archived:4}[s];}
+function statusLabel(t){const s=stageOf(t);if(s==='snoozed')return 'Snoozed';if(s==='archived')return 'Archived';return t.status;}
+function assigneeName(t){return t.assignedStatus==='Assigned'?String(t.assignee||'').trim():'';}
+function sortList(list,key){
+  const tie=(a,b)=>serNum(a)-serNum(b)||cmpNum(a.createdAt,b.createdAt)||String(a.id).localeCompare(String(b.id));
+  const by={
+    'ser-asc':(a,b)=>tie(a,b),
+    'ser-desc':(a,b)=>serNum(b)-serNum(a)||tie(a,b),
+    'due-asc':(a,b)=>cmpNum(dueKey(a),dueKey(b))||tie(a,b),
+    'due-desc':(a,b)=>cmpNum(dueKey(a),dueKey(b),true)||tie(a,b),
+    'overdue':(a,b)=>{const da=dueInfo(a),db=dueInfo(b);const oa=da&&da.cls==='overdue'?da.d:null,ob=db&&db.cls==='overdue'?db.d:null;return cmpNum(oa,ob)||cmpNum(dueKey(a),dueKey(b))||tie(a,b);},
+    'created-desc':(a,b)=>cmpNum(a.createdAt,b.createdAt,true)||tie(a,b),
+    'created-asc':(a,b)=>cmpNum(a.createdAt,b.createdAt)||tie(a,b),
+    'updated-desc':(a,b)=>cmpNum(a.updatedAt,b.updatedAt,true)||tie(a,b),
+    'updated-asc':(a,b)=>cmpNum(a.updatedAt,b.updatedAt)||tie(a,b),
+    'prio-desc':(a,b)=>(PRIO_RANK[a.priority]??9)-(PRIO_RANK[b.priority]??9)||tie(a,b),
+    'prio-asc':(a,b)=>(PRIO_RANK[b.priority]??-1)-(PRIO_RANK[a.priority]??-1)||tie(a,b),
+    'assignee':(a,b)=>cmpStr(assigneeName(a),assigneeName(b))||tie(a,b),
+    'cat':(a,b)=>cmpStr(a.cat,b.cat)||tie(a,b),
+    'subj':(a,b)=>cmpStr(a.subj,b.subj)||tie(a,b),
+    'status':(a,b)=>statusRank(a)-statusRank(b)||tie(a,b),
+    'completed-desc':(a,b)=>cmpNum(tsOf(a.completedAt),tsOf(b.completedAt),true)||tie(a,b),
+    'snoozed-desc':(a,b)=>cmpNum(tsOf(a.snoozedAt),tsOf(b.snoozedAt),true)||tie(a,b),
+    'snoozed-asc':(a,b)=>cmpNum(tsOf(a.snoozedAt),tsOf(b.snoozedAt))||tie(a,b),
+    'archived-desc':(a,b)=>cmpNum(tsOf(a.archivedAt),tsOf(b.archivedAt),true)||tie(a,b),
+    'archived-asc':(a,b)=>cmpNum(tsOf(a.archivedAt),tsOf(b.archivedAt))||tie(a,b),
+    'wake-asc':(a,b)=>cmpNum(stageOf(a)==='snoozed'?dateMs(a.snoozeUntil):null,stageOf(b)==='snoozed'?dateMs(b.snoozeUntil):null)||tie(a,b)
+  };
+  return list.slice().sort(by[key]||by['ser-asc']);
+}
+function monthStart(ms){const d=new Date(ms);return new Date(d.getFullYear(),d.getMonth(),1).getTime();}
+function dayStart(ms){const d=new Date(ms);d.setHours(0,0,0,0);return d.getTime();}
+// Returns {key,label,rank} for a task under the chosen grouping
+function groupOf(t,g){
+  switch(g){
+    case 'assignee':{const n=assigneeName(t);return n?{key:'a:'+n.toLowerCase(),label:n,rank:[0,n.toLowerCase()]}:{key:'a:-',label:'Unassigned',rank:[1,'']};}
+    case 'cat':{const i=settings.categories.indexOf(t.cat);return {key:'c:'+t.cat,label:t.cat||'—',rank:[i<0?999:i,String(t.cat||'').toLowerCase()]};}
+    case 'status':return {key:'s:'+statusRank(t),label:statusLabel(t),rank:[statusRank(t),'']};
+    case 'prio':return {key:'p:'+t.priority,label:PRIO_LONG[t.priority]||t.priority,rank:[PRIO_RANK[t.priority]??9,'']};
+    case 'due':{
+      const i=dueInfo(t);
+      if(i){const L={overdue:'Overdue',today:'Due today',soon:'Due in 1–3 days',later:'Later',none:'No target date'};const R={overdue:0,today:1,soon:2,later:3,none:4};return {key:'d:'+i.cls,label:L[i.cls],rank:[R[i.cls],'']};}
+      const ms=dateMs(t.targetDate);if(ms==null)return {key:'d:none',label:'No target date',rank:[9e15,'']};
+      const m=monthStart(ms);return {key:'d:m'+m,label:'Target '+new Date(m).toLocaleDateString('en-GB',{month:'long',year:'numeric'}),rank:[5+m,'']};}
+    case 'created-month':case 'created-day':{
+      if(!t.createdAt)return {key:'e:none',label:'Entry date unknown',rank:[1,0]};
+      const s=g==='created-month'?monthStart(t.createdAt):dayStart(t.createdAt);
+      const label=g==='created-month'?new Date(s).toLocaleDateString('en-GB',{month:'long',year:'numeric'}):new Date(s).toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+      return {key:'e:'+s,label,rank:[0,-s]};}
+  }
+  return null;
+}
+function cmpRank(a,b){for(let i=0;i<a.length;i++){if(a[i]===b[i])continue;if(typeof a[i]==='number'&&typeof b[i]==='number')return a[i]-b[i];return String(a[i]).localeCompare(String(b[i]));}return 0;}
+function groupList(list,g){
+  if(!g||g==='none')return null;
+  const map=new Map();
+  list.forEach(t=>{const k=groupOf(t,g);if(!map.has(k.key))map.set(k.key,Object.assign(k,{items:[]}));map.get(k.key).items.push(t);});
+  return [...map.values()].sort((a,b)=>cmpRank(a.rank,b.rank));
+}
+
 /* ================= Derived views ================= */
+function searchHay(t){return [t.subj,t.comments,t.assignee,t.remarks,t.cat,serLabel(t),t.ser,t.snoozeReason,statusLabel(t),fmtDue(t)].concat(customCols().map(c=>t[c.id])).join(' ').toLowerCase();}
+function inTab(t,tab){
+  if(tab==='trash')return !!t.deleted;
+  if(t.deleted)return false;
+  if(tab==='all')return true;
+  return stageOf(t)===tab;
+}
 function visibleTasks(){
   const q=($('#search').value||'').toLowerCase().trim();
-  let list=tasks.filter(t=>{
-    if(ui.filter==='trash'){if(!t.deleted)return false;}
-    else{
-      if(t.deleted)return false;
-      if(ui.quick==='done'){if(!isDone(t))return false;}
-      else if(ui.quick){ if(isDone(t))return false;
-        if(ui.quick==='overdue'&&!isOverdue(t))return false;
-        if(ui.quick==='soon'&&!isSoon(t))return false;
-        if(ui.quick==='unassigned'&&t.assignedStatus==='Assigned')return false;
-      } else {
-        if(ui.filter==='active'&&isDone(t))return false;
-        if(ui.filter==='completed'&&!isDone(t))return false;
-      }
-      if(ui.cat!=='ALL'&&t.cat!==ui.cat)return false;
-    }
-    if(q){
-      const hay=[t.subj,t.comments,t.assignee,t.remarks,t.cat,t.ser].concat(customCols().map(c=>t[c.id])).join(' ').toLowerCase();
-      if(!hay.includes(q))return false;
-    }
+  const list=tasks.filter(t=>{
+    if(ui.quick){
+      if(t.deleted||stageOf(t)!=='active')return false;
+      if(ui.quick==='overdue'&&!isOverdue(t))return false;
+      if(ui.quick==='today'&&!isToday(t))return false;
+      if(ui.quick==='soon'&&!isSoon(t))return false;
+      if(ui.quick==='unassigned'&&t.assignedStatus==='Assigned')return false;
+    }else if(!inTab(t,ui.filter))return false;
+    if(ui.filter!=='trash'&&ui.cat!=='ALL'&&t.cat!==ui.cat)return false;
+    if(q&&!searchHay(t).includes(q))return false;
     return true;
   });
-  const bySer=(a,b)=>serNum(a)-serNum(b)||(a.createdAt||0)-(b.createdAt||0);
-  if(ui.sort==='date')list.sort((a,b)=>(dateMs(a.targetDate)??9e15)-(dateMs(b.targetDate)??9e15)||bySer(a,b));
-  else if(ui.sort==='prio')list.sort((a,b)=>(PRIO_RANK[a.priority]??9)-(PRIO_RANK[b.priority]??9)||bySer(a,b));
-  else if(ui.sort==='cat'){const ord=settings.categories;list.sort((a,b)=>((ord.indexOf(a.cat)+1)||99)-((ord.indexOf(b.cat)+1)||99)||bySer(a,b));}
-  else list.sort(bySer);
-  return list;
+  return sortList(list,effectiveSort());
 }
 function customCols(){return settings.columns.filter(c=>!c.default);}
 function selectedVisible(){const v=visibleTasks();return v.filter(t=>ui.selected.has(t.id));}
+function saveView(){lsSet('hilmi_view_v10',{sort:ui.sort,group:ui.group,filter:ui.filter});}
 
 /* ================= Render ================= */
 function isEditingInline(){const a=document.activeElement;return a&&a.closest&&a.closest('#tbody')&&(a.isContentEditable||a.tagName==='INPUT');}
 function requestRender(){if(isEditingInline()){pendingRender=true;return;}renderAll();}
-function renderAll(){pendingRender=false;renderCounts();renderCats();renderTable();setSync();}
+function renderAll(){pendingRender=false;renderCounts();renderCats();renderSortOptions();renderTable();setSync();}
 
 function renderCounts(){
   const live=tasks.filter(t=>!t.deleted);
-  const active=live.filter(t=>!isDone(t));
-  const over=live.filter(isOverdue);
-  $('#nActive').textContent=active.length;
-  $('#nOverdue').textContent=over.length;
-  $('#nSoon').textContent=live.filter(isSoon).length;
-  $('#nUnassigned').textContent=active.filter(t=>t.assignedStatus!=='Assigned').length;
-  $('#nDone').textContent=live.filter(isDone).length;
-  $('#cActive').textContent=active.length;
-  $('#cCompleted').textContent=live.filter(isDone).length;
-  $('#cAll').textContent=live.length;
-  $('#cTrash').textContent=tasks.filter(t=>t.deleted).length;
-  $$('.stat').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.quick===ui.quick&&!!ui.quick)));
+  const by=s=>live.filter(t=>stageOf(t)===s);
+  const active=by('active');
+  const over=active.filter(isOverdue);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('nActive',active.length);set('nOverdue',over.length);set('nToday',active.filter(isToday).length);set('nSoon',active.filter(isSoon).length);
+  set('nUnassigned',active.filter(t=>t.assignedStatus!=='Assigned').length);
+  set('nDone',by('completed').length);set('nSnoozed',by('snoozed').length);set('nArchived',by('archived').length);
+  set('cActive',active.length);set('cCompleted',by('completed').length);set('cSnoozed',by('snoozed').length);set('cArchived',by('archived').length);
+  set('cAll',live.length);set('cTrash',tasks.filter(t=>t.deleted).length);
+  $$('.stat').forEach(b=>{const q=b.dataset.quick;b.setAttribute('aria-pressed',String(q?ui.quick===q:(!ui.quick&&ui.filter===b.dataset.tab)));});
   $$('#statusTabs button').forEach(b=>b.setAttribute('aria-selected',String(!ui.quick&&b.dataset.f===ui.filter)));
   const ob=$('#overdueBanner');
-  if(over.length&&ui.filter!=='trash'){ob.hidden=false;$('#overdueText').textContent=over.length===1?'1 task is past its target date.':over.length+' tasks are past their target date.';}
+  if(over.length&&(ui.filter==='active'||ui.filter==='all')){ob.hidden=false;$('#overdueText').textContent=over.length===1?'1 active task is past its target date.':over.length+' active tasks are past their target date.';}
   else ob.hidden=true;
   const ib=$('#infoBanner');
   if(mode==='cloud'&&!cloud.loaded&&!tasks.length){ib.hidden=false;ib.innerHTML=icon('cloud')+'<span>Loading your tasks from the cloud…</span>';}
@@ -716,86 +1032,138 @@ function renderCounts(){
     ib.querySelector('#ibUp').onclick=uploadLocalTasks;ib.querySelector('#ibNo').onclick=()=>{uploadDismissed=true;renderCounts();};
   }
   else ib.hidden=true;
-  $('#bulkDelLbl').textContent=ui.filter==='trash'?'Delete forever':'Trash';
 }
 function renderCats(){
   const box=$('#cats');
-  const base=tasks.filter(t=>!t.deleted&&(ui.filter==='all'||ui.filter==='trash'||(ui.filter==='active'?!isDone(t):isDone(t))));
+  const base=tasks.filter(t=>ui.quick?(!t.deleted&&stageOf(t)==='active'):inTab(t,ui.filter));
   let h=`<button class="chip" data-cat="ALL" aria-pressed="${ui.cat==='ALL'}">All categories <span class="c">${base.length}</span></button>`;
   settings.categories.forEach(c=>{h+=`<button class="chip" data-cat="${esc(c)}" aria-pressed="${ui.cat===c}">${esc(c)} <span class="c">${base.filter(t=>t.cat===c).length}</span></button>`;});
   box.innerHTML=h;
 }
+function renderSortOptions(){
+  const sel=$('#sortBy'),eff=effectiveSort();
+  sel.innerHTML=SORTS.filter(s=>sortAvailable(s.v,ui.filter)).map(s=>`<option value="${s.v}"${s.v===eff?' selected':''}>${esc(s.l)}</option>`).join('');
+  const gs=$('#groupBy');gs.innerHTML=GROUPS.map(([v,l])=>`<option value="${v}"${v===ui.group?' selected':''}>${v==='none'?l:'Group: '+l}</option>`).join('');
+}
 function optList(arr,cur){return arr.map(v=>`<option value="${esc(v)}"${v===cur?' selected':''}>${esc(v)}</option>`).join('');}
 function contactsDatalist(){return `<datalist id="dlContacts">${settings.contacts.map(c=>`<option value="${esc(c.name)}"></option>`).join('')}</datalist>`;}
 
+function rowActions(t){
+  if(t.deleted)return `<button class="btn" data-act="restore" title="Restore from Trash">${icon('undo')}</button><button class="btn danger" data-act="purge" title="Delete forever">${icon('trash')}</button>`;
+  const s=stageOf(t),over=isOverdue(t);
+  const wa=`<button class="btn ghost wa-i" data-act="wa" title="${over?'WhatsApp overdue reminder':'Send on WhatsApp'}">${icon(over?'bell':'msg')}</button>`;
+  const edit=`<button class="btn ghost" data-act="edit" title="${s==='archived'?'View / edit':'Edit'}">${icon('edit')}</button>`;
+  const trash=`<button class="btn ghost" data-act="trash" title="Move to Trash">${icon('trash')}</button>`;
+  if(s==='active')return wa+`<button class="btn ghost" data-act="mv:snooze" title="Snooze (set aside)">${icon('snooze')}</button>`+edit+trash;
+  if(s==='completed')return wa+`<button class="btn ghost" data-act="mv:archive" title="Move to Archive">${icon('archive')}</button>`+edit+trash;
+  if(s==='snoozed')return `<button class="btn ghost act-go" data-act="mv:reactivate" title="Reactivate (back to Active)">${icon('play')}</button>`+wa+edit+trash;
+  return `<button class="btn ghost act-go" data-act="mv:unarchive" title="Restore to Completed">${icon('undo')}</button>`+edit+trash;
+}
 function renderTable(){
   const cols=settings.columns.filter(c=>c.visible);
   $('#thead').innerHTML=`<th class="c-chk"></th>`+cols.map(c=>`<th>${esc(c.label)}</th>`).join('')+`<th style="text-align:right">Actions</th>`;
   const list=visibleTasks();
   const tb=$('#tbody');
-  // header checkbox
   const allSel=list.length&&list.every(t=>ui.selected.has(t.id));
   $('#chkAll').checked=!!allSel;$('#chkAll').indeterminate=!allSel&&list.some(t=>ui.selected.has(t.id));
-  $('#selInfo').textContent=selectedVisible().length+' selected';
+  renderBulk(list);
   if(!list.length){tb.innerHTML='';renderEmpty();return;}
   $('#empty').hidden=true;
-  let html='',lastCat=null;const span=cols.length+2;
-  list.forEach(t=>{
-    if(ui.sort==='cat'&&t.cat!==lastCat){html+=`<tr class="band"><td colspan="${span}">${esc(t.cat)}</td></tr>`;lastCat=t.cat;}
-    const over=isOverdue(t),d=daysLeft(t),done=isDone(t);
-    let r=`<tr class="task${over?' is-overdue':''}${isSoon(t)?' is-soon':''}${done?' is-done':''}" data-id="${esc(t.id)}"><td class="c-chk"><input type="checkbox" class="rowchk" ${ui.selected.has(t.id)?'checked':''} aria-label="Select task"></td>`;
+  const span=cols.length+2;
+  const groups=groupList(list,ui.group);
+  let html='';
+  const row=t=>{
+    const s=stageOf(t),di=dueInfo(t),cls=di?di.cls:'',done=isDone(t),showStage=ui.filter==='all'||ui.filter==='trash';
+    let r=`<tr class="task${cls==='overdue'?' is-overdue':''}${cls==='today'?' is-today':''}${cls==='soon'?' is-soon':''}${s==='completed'?' is-done':''}${s==='snoozed'?' is-snoozed':''}${s==='archived'?' is-archived is-done':''}" data-id="${esc(t.id)}"><td class="c-chk"><input type="checkbox" class="rowchk" ${ui.selected.has(t.id)?'checked':''} aria-label="Select task"></td>`;
     cols.forEach(c=>{
       const L=esc(c.label);
       switch(c.id){
-        case 'ser':r+=`<td class="c-ser" data-label="${L}"><span class="ser" contenteditable="true" data-f="ser" inputmode="numeric">${esc(t.ser)}</span></td>`;break;
+        case 'ser':{
+          const pre=SER_PREFIX[s];
+          r+=`<td class="c-ser" data-label="${L}" title="Entered ${esc(fmtStamp(t.createdAt)||'(date not recorded)')}">${pre?`<span class="ser serpre">${pre}</span>`:''}<span class="ser" contenteditable="${t.deleted?'false':'true'}" data-f="ser" inputmode="numeric">${esc(dispSer(t))}</span>${showStage&&s!=='active'?`<span class="stg stg-${s}">${STAGE_LABEL[s]}</span>`:''}</td>`;break;}
         case 'cat':r+=`<td data-label="${L}"><select class="cell-sel" data-f="cat">${optList(settings.categories.includes(t.cat)?settings.categories:settings.categories.concat([t.cat]),t.cat)}</select></td>`;break;
-        case 'subj':r+=`<td class="c-subj" data-label="${L}"><div class="subj" contenteditable="true" data-f="subj">${esc(t.subj)}</div></td>`;break;
+        case 'subj':r+=`<td class="c-subj" data-label="${L}"><div class="subj" contenteditable="true" data-f="subj">${esc(t.subj)}</div>${s==='snoozed'&&t.snoozeUntil?`<div class="snz-note wake">${icon('play')} Wakes ${esc(wakeLabel(t))}</div>`:''}${s==='snoozed'&&t.snoozeReason?`<div class="snz-note">${icon('snooze')} ${esc(t.snoozeReason)}</div>`:''}</td>`;break;
         case 'comments':{
           const exp=ui.expanded.has(t.id);const long=(t.comments||'').split('\n').length>4||(t.comments||'').length>260;
           r+=`<td data-label="${L}"><div class="gist${long&&!exp?' clamp':''}" contenteditable="true" data-f="comments">${esc(t.comments)}</div>${long?`<button class="more-link" data-act="expand">${exp?'Show less':'Show all'}</button>`:''}</td>`;break;}
         case 'assigned':{
           const as=t.assignedStatus==='Assigned';
           r+=`<td data-label="${L}"><div class="stack duo"><select class="cell-sel pill ${as?'a-Assigned':''}" data-f="assignedStatus">${optList(['Unassigned','Assigned'],as?'Assigned':'Unassigned')}</select><input class="cell-in" data-f="assignee" list="dlContacts" value="${esc(as?t.assignee:'')}" placeholder="${as?'Assignee name':'—'}" ${as?'':'disabled'}></div></td>`;break;}
-        case 'action':r+=`<td data-label="${L}"><div class="stack duo"><select class="cell-sel pill p-${esc(t.priority)}" data-f="priority">${optList(PRIORITIES,t.priority)}</select><select class="cell-sel pill ${done?'s-Completed':t.status==='In Progress'?'s-InProgress':''}" data-f="status">${optList(STATUSES,t.status)}</select></div></td>`;break;
+        case 'action':{
+          const stOpts=s==='snoozed'?STATUSES.map(v=>`<option value="${v}"${v===t.status?' selected':''}>${v==='Completed'?'Completed (un-snooze)':v}</option>`).join(''):optList(STATUSES,t.status);
+          r+=`<td data-label="${L}"><div class="stack duo"><select class="cell-sel pill p-${esc(t.priority)}" data-f="priority">${optList(PRIORITIES,t.priority)}</select><select class="cell-sel pill ${done?'s-Completed':t.status==='In Progress'?'s-InProgress':''}" data-f="status" ${s==='archived'?'disabled title="Archived tasks stay completed. Restore to Completed to change."':''}>${stOpts}</select></div></td>`;break;}
         case 'targetDate':{
           let flag='';
-          if(!done&&d!==null){if(d<0)flag=`<span class="flag over">Overdue ${-d}d</span>`;else if(d===0)flag='<span class="flag today">Due today</span>';else if(d<=3)flag=`<span class="flag soon">${d}d left</span>`;}
-          r+=`<td data-label="${L}"><input type="date" class="cell-in due" data-f="targetDate" value="${esc(t.targetDate)}">${flag}</td>`;break;}
+          if(di&&di.d!==null){if(cls==='overdue')flag=`<span class="flag over">Overdue ${-di.d}d</span>`;else if(cls==='today')flag='<span class="flag today">Due today</span>';else if(cls==='soon')flag=`<span class="flag soon">Due soon · ${di.d}d</span>`;}
+          r+=`<td data-label="${L}"><input type="date" class="cell-in due" data-f="targetDate" value="${esc(t.targetDate)}">${t.targetTime?`<span class="due-time">${icon('clock')}${esc(t.targetTime)}</span>`:''}${flag}</td>`;break;}
         case 'remarks':r+=`<td data-label="${L}"><div contenteditable="true" data-f="remarks">${esc(t.remarks)}</div></td>`;break;
+        case 'created':r+=`<td data-label="${L}"><span class="due">${esc(fmtStamp(t.createdAt)||'—')}</span></td>`;break;
         default:r+=`<td data-label="${L}"><div contenteditable="true" data-f="${esc(c.id)}">${esc(t[c.id]||'')}</div></td>`;
       }
     });
-    if(ui.filter==='trash'){
-      r+=`<td class="c-act"><div class="rowacts"><button class="btn" data-act="restore" title="Restore">${icon('undo')}</button><button class="btn danger" data-act="purge" title="Delete forever">${icon('trash')}</button></div></td>`;
-    }else{
-      r+=`<td class="c-act"><div class="rowacts"><button class="btn ghost wa-i" data-act="wa" title="${over?'Send overdue reminder on WhatsApp':'Send on WhatsApp'}">${icon(over?'bell':'msg')}</button><button class="btn ghost" data-act="edit" title="Edit">${icon('edit')}</button><button class="btn ghost" data-act="trash" title="Move to Trash">${icon('trash')}</button></div></td>`;
-    }
-    html+=r+'</tr>';
-  });
+    r+=`<td class="c-act"><div class="rowacts">${rowActions(t)}</div></td>`;
+    return r+'</tr>';
+  };
+  if(groups){groups.forEach(g=>{html+=`<tr class="band"><td colspan="${span}">${esc(g.label)} <span class="band-n">${g.items.length}</span></td></tr>`;g.items.forEach(t=>html+=row(t));});}
+  else list.forEach(t=>html+=row(t));
   tb.innerHTML=html+contactsDatalist();
 }
+const EMPTY={
+  active:['No active tasks','Add a task, or reactivate one from Snooze.'],
+  completed:['No completed tasks','Tasks you mark Completed appear here.'],
+  snoozed:['No snoozed tasks','Tasks placed on Snooze will appear here until you reactivate them.'],
+  archived:['No archived tasks','Move completed tasks here when you want to retain them for future reference.'],
+  all:['No tasks match','Try another category or search term.'],
+  trash:['Trash is empty','Deleted tasks wait here until you restore or remove them for good.']
+};
 function renderEmpty(){
   const e=$('#empty');e.hidden=false;
   const noTasks=!tasks.filter(t=>!t.deleted).length;
-  if(ui.filter==='trash'){e.innerHTML=`${icon('trash')}<h3>Trash is empty</h3><p>Deleted tasks wait here until you restore or remove them for good.</p>`;return;}
   if(mode==='cloud'&&!cloud.loaded&&noTasks){e.innerHTML=`<h3>Loading…</h3><p>Fetching your register from the cloud.</p>`;return;}
-  if(noTasks){
+  if(noTasks&&ui.filter!=='trash'){
     e.innerHTML=`<h3>Your task register is empty</h3><p>Add your first task, bring tasks in from a Word daily update, or restore a backup from another device.</p>
     <div class="actions"><button class="btn primary" data-empty="add">${icon('plus')}Add task</button><button class="btn" data-empty="import">${icon('upload')}Import from Word</button><button class="btn" data-empty="restore">${icon('db')}Restore backup</button><button class="btn ghost" data-empty="sample">Load 3 example tasks</button></div>`;
-  }else e.innerHTML=`<h3>No tasks match</h3><p>Try another category, tab or search term.</p>`;
+    return;
+  }
+  const filtered=($('#search').value||'').trim()||ui.cat!=='ALL'||ui.quick;
+  const [h,p]=filtered?['No tasks match','Try another category, tab or search term.']:(EMPTY[ui.filter]||EMPTY.all);
+  e.innerHTML=`<h3>${esc(h)}</h3><p>${esc(p)}</p>`;
+}
+
+/* ---------- Adaptive bulk toolbar ---------- */
+const BULK_BY_TAB={
+  active:[['mv:complete','check','Complete'],['mv:snooze','snooze','Snooze'],['wa','msg','WhatsApp'],['trash','trash','Trash']],
+  completed:[['mv:reopen','undo','Return to Active'],['mv:archive','archive','Archive'],['wa','msg','WhatsApp'],['trash','trash','Trash']],
+  snoozed:[['mv:reactivate','play','Reactivate'],['wa','msg','WhatsApp'],['trash','trash','Trash']],
+  archived:[['mv:unarchive','undo','Restore to Completed'],['wa','msg','WhatsApp'],['trash','trash','Trash']],
+  all:[['moveto','',''],['wa','msg','WhatsApp'],['trash','trash','Trash']],
+  trash:[['restore','undo','Restore'],['purge','trash','Delete forever']]
+};
+function renderBulk(list){
+  const n=list.filter(t=>ui.selected.has(t.id)).length;
+  $('#selInfo').textContent=n+' selected';
+  const tab=ui.quick?'active':ui.filter;
+  $('#bulkActs').innerHTML=(BULK_BY_TAB[tab]||[]).map(([a,ic,l])=>{
+    if(a==='moveto')return `<select class="sel" id="bulkMoveTo" aria-label="Move selected to" ${n?'':'disabled'}><option value="">Move to…</option><option value="active">Active</option><option value="completed">Completed</option><option value="snoozed">Snooze</option><option value="archived">Archive</option></select>`;
+    const danger=a==='trash'||a==='purge';
+    return `<button class="btn${danger?' danger':''}" data-bulk="${a}" ${n?'':'disabled'} title="${esc(l)} selected"><svg class="i"><use href="#i-${ic}"/></svg><span class="lbl-hide">${esc(l)}</span></button>`;
+  }).join('');
 }
 
 /* ================= Inline editing ================= */
 function taskById(id){return tasks.find(t=>t.id===id);}
 function rowTask(el){const tr=el.closest('tr.task');return tr&&taskById(tr.dataset.id);}
+function shortSubj(t){const s=String(t.subj||'Task');return '“'+(s.length>40?s.slice(0,38)+'…':s)+'”';}
+function tabName(stage){return {active:'Active',completed:'Completed',snoozed:'Snooze',archived:'Archive'}[stage]||stage;}
 function bindTable(){
   const tb=$('#tbody');
   tb.addEventListener('focusout',e=>{
     const el=e.target;if(!el.isContentEditable)return;
     const t=rowTask(el);if(!t)return;
-    const f=el.dataset.f;let v=el.innerText.replace(/\u00a0/g,' ').replace(/\n{3,}/g,'\n\n').trim();
+    let f=el.dataset.f;let v=el.innerText.replace(/ /g,' ').replace(/\n{3,}/g,'\n\n').trim();
     if(f!=='comments')v=v.replace(/\s*\n\s*/g,' ');
-    if((t[f]||'')!==v){t[f]=v;saveTask(t);}
+    if(f==='ser')f=SER_KEY[stageOf(t)];
+    if(String(t[f]||'')!==v){t[f]=v;saveTask(t);}
     setTimeout(()=>{if(pendingRender&&!isEditingInline())renderAll();},0);
   });
   tb.addEventListener('keydown',e=>{
@@ -807,9 +1175,18 @@ function bindTable(){
     const el=e.target;const t=rowTask(el);if(!t)return;
     if(el.classList.contains('rowchk')){el.checked?ui.selected.add(t.id):ui.selected.delete(t.id);renderTable();return;}
     const f=el.dataset.f;if(!f)return;
+    if(f==='status'){
+      const before=stageOf(t),snap=snapshotOf([t]);
+      setStatus(t,el.value);saveTask(t);
+      const after=stageOf(t);
+      if(after!==before){ui.selected.delete(t.id);renderAll();toast(`${shortSubj(t)} moved to ${tabName(after)} as ${serLabel(t)}`,[{label:'Undo',fn:()=>restoreSnap(snap)}]);}
+      else renderAll();
+      return;
+    }
     t[f]=el.value;
+    if(f==='targetDate'&&!el.value)t.targetTime='';
     if(f==='assignedStatus'&&el.value==='Unassigned')t.assignee='';
-    if(f==='assignee'){const c=matchContact(el.value);if(el.value&&t.assignedStatus!=='Assigned')t.assignedStatus='Assigned';void c;}
+    if(f==='assignee'&&el.value&&t.assignedStatus!=='Assigned')t.assignedStatus='Assigned';
     saveTask(t);
     if(el.tagName==='INPUT'&&el.type!=='date')el.blur();
     renderAll();
@@ -819,11 +1196,113 @@ function bindTable(){
     const a=b.dataset.act;
     if(a==='expand'){ui.expanded.has(t.id)?ui.expanded.delete(t.id):ui.expanded.add(t.id);renderTable();}
     else if(a==='edit')openTaskDlg(t);
-    else if(a==='trash'){t.deleted=true;ui.selected.delete(t.id);saveTask(t);renderAll();toast('Moved to Trash',()=>{t.deleted=false;saveTask(t);renderAll();});}
-    else if(a==='restore'){t.deleted=false;saveTask(t);renderAll();toast('Task restored');}
-    else if(a==='purge'){confirmBox('Delete this task for good? This cannot be undone.','Delete forever',true).then(ok=>{if(!ok)return;tasks=tasks.filter(x=>x!==t);ui.selected.delete(t.id);removeTaskStore(t.id);renderAll();});}
-    else if(a==='wa')openWaDlg([t],isOverdue(t));
+    else if(a.startsWith('mv:'))singleMove(t,a.slice(3));
+    else if(a==='trash')trashTasks([t]);
+    else if(a==='restore')restoreFromTrash([t]);
+    else if(a==='purge')purgeTasks([t]);
+    else if(a==='wa')quickWhatsApp(t,b);
   });
+}
+
+/* ================= Lifecycle actions (single + bulk) ================= */
+let busyUntil=0;
+function guard(){const n=Date.now();if(n<busyUntil)return false;busyUntil=n+600;return true;} // ignores double clicks
+function snapshotOf(list){return list.map(t=>[t,plain(t)]);}
+function restoreSnap(snap){snap.forEach(([t,s])=>{Object.keys(t).forEach(k=>delete t[k]);Object.assign(t,s);saveTask(t);});renderAll();toast('Undone');}
+function plural(n,w){return n+' '+w+(n===1?'':'s');}
+function singleMove(t,m,opts){
+  if(!guard())return;
+  if(!canMove(t,m)){toast(`Cannot ${MOVES[m].label.toLowerCase()}: ${MOVES[m].why}.`);return;}
+  const snap=snapshotOf([t]);
+  applyMove(t,m,opts);ui.selected.delete(t.id);saveTask(t);renderAll();
+  const acts=[{label:'Undo',fn:()=>restoreSnap(snap)}];
+  if(m==='snooze')acts.push({label:'Reason / wake date',fn:()=>askSnoozeReason([t])});
+  toast(`${shortSubj(t)} ${MOVES[m].done} · ${serLabel(t)} in ${tabName(MOVES[m].to)}`,acts);
+}
+async function bulkMove(list,pick,verb,why,isSnooze){
+  if(!list.length){toast('No tasks selected');return;}
+  if(!guard())return;
+  const elig=list.filter(t=>pick(t)),skip=list.length-elig.length;
+  if(!elig.length){toast(`None of the selected tasks can be ${verb}: ${why}.`);return;}
+  if(skip){if(!await confirmBox(`${elig.length} of ${list.length} selected tasks can be ${verb}. ${plural(skip,'task')} will be skipped because ${why}. Continue with ${elig.length}?`,`Continue (${elig.length})`))return;}
+  else if(elig.length>=10){if(!await confirmBox(`This will affect ${elig.length} tasks. Continue?`,'Continue'))return;}
+  const snap=snapshotOf(elig);
+  sortList(elig,'ser-asc').forEach(t=>{const m=pick(t);if(applyMove(t,m)){saveTask(t);}ui.selected.delete(t.id);});
+  renderAll();
+  const acts=[{label:'Undo',fn:()=>restoreSnap(snap)}];
+  if(isSnooze)acts.push({label:'Reason / wake date',fn:()=>askSnoozeReason(elig)});
+  toast(`${plural(elig.length,'task')} ${verb}`,acts);
+}
+function bulkAction(a,list){
+  if(a.startsWith('mv:')){const m=a.slice(3);return bulkMove(list,t=>canMove(t,m)?m:null,MOVES[m].done,MOVES[m].why,m==='snooze');}
+  if(a==='wa')return bulkWhatsApp(list);
+  if(a==='trash')return trashTasks(list);
+  if(a==='restore')return restoreFromTrash(list);
+  if(a==='purge')return purgeTasks(list);
+}
+function moveSelectedTo(dest){
+  const list=selectedVisible();
+  const why={active:'only completed or snoozed tasks can return to Active',completed:'only active, snoozed or archived tasks can move to Completed',snoozed:'only active tasks can be snoozed',archived:'only completed tasks can be archived (complete them first)'}[dest];
+  return bulkMove(list,t=>moveTo(t,dest),'moved to '+tabName(dest),why,dest==='snoozed');
+}
+async function trashTasks(list){
+  list=list.filter(t=>!t.deleted);if(!list.length){toast('No tasks selected');return;}
+  if(!guard())return;
+  if(list.length>=10&&!await confirmBox(`Move ${list.length} tasks to Trash?`,'Move to Trash',true))return;
+  const snap=snapshotOf(list);
+  list.forEach(t=>{t.deleted=true;t.trashedAt=new Date().toISOString();logEv(t,'trashed',{from:stageOf(t),ser:serLabel(t)});ui.selected.delete(t.id);saveTask(t);});
+  renderAll();toast(list.length===1?`${shortSubj(list[0])} moved to Trash`:`${list.length} tasks moved to Trash`,[{label:'Undo',fn:()=>restoreSnap(snap)}]);
+}
+function restoreFromTrash(list){
+  list=list.filter(t=>t.deleted);if(!list.length)return;
+  if(!guard())return;
+  list.forEach(t=>{t.deleted=false;const s=stageOf(t);placeSer(t,s,dispSer(t));logEv(t,'restored',{to:s,newSer:serLabel(t)});ui.selected.delete(t.id);saveTask(t);});
+  renderAll();toast(list.length===1?`Restored to ${tabName(stageOf(list[0]))}`:`${list.length} tasks restored to their previous tabs`);
+}
+async function purgeTasks(list){
+  list=list.filter(t=>t.deleted);if(!list.length)return;
+  if(!await confirmBox(list.length===1?'Delete this task for good? This cannot be undone.':`Permanently delete ${list.length} tasks? This cannot be undone.`,'Delete forever',true))return;
+  const ids=new Set(list.map(t=>t.id));tasks=tasks.filter(t=>!ids.has(t.id));
+  list.forEach(t=>{ui.selected.delete(t.id);removeTaskStore(t.id);});renderAll();toast(plural(list.length,'task')+' deleted');
+}
+function wakeLabel(t){const d=daysLeft({targetDate:t.snoozeUntil});const base=new Date(dateMs(t.snoozeUntil)).toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short'});return d===null?'':d<=0?'today':d===1?'tomorrow ('+base+')':base;}
+function nextWeekday(dow){const d=new Date();d.setHours(12,0,0,0);const n=((dow-d.getDay()+7)%7)||7;d.setDate(d.getDate()+n);return localYMD(d);}
+function plusMonths(m){const d=new Date();d.setHours(12,0,0,0);const day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+m);const last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,last));return localYMD(d);}
+// Snooze details: reason and optional automatic wake-up date (one task or many)
+function askSnoozeReason(list){
+  list=list.filter(t=>stageOf(t)==='snoozed');if(!list.length)return;
+  const one=list.length===1?list[0]:null;
+  const chips=[['Tomorrow',addDaysYMD(1)],['Next Monday',nextWeekday(1)],['In 1 week',addDaysYMD(7)],['In 2 weeks',addDaysYMD(14)],['In 1 month',plusMonths(1)]];
+  const d=openDlg({title:list.length>1?`Snooze details (${list.length} tasks)`:'Snooze details',body:`
+    <div class="field"><label for="szR">Why is this set aside? (optional)</label><input id="szR" value="${esc(one?one.snoozeReason||'':'')}" placeholder="e.g. Awaiting reply from Div HQ"></div>
+    <div class="field"><label for="szU">Reactivate automatically on (optional)</label><input id="szU" type="date" min="${addDaysYMD(1)}" value="${esc(one?one.snoozeUntil||'':'')}">
+      <div class="ph-list">${chips.map(([l,v])=>`<button class="ph" data-wake="${v}">${l}</button>`).join('')}<button class="ph" data-wake="">No date (manual)</button></div>
+      <p class="hint">On that date the task moves back to Active by itself, with its serial and details intact. It happens as soon as the app is open on any of your devices that day.</p></div>`,
+    footer:`<button class="btn" data-close>Cancel</button><button class="btn primary" id="szOk">Save</button>`});
+  const u=d.querySelector('#szU');
+  d.querySelector('.body').addEventListener('click',e=>{const c=e.target.closest('[data-wake]');if(c){e.preventDefault();u.value=c.dataset.wake;}});
+  const go=()=>{
+    const r=d.querySelector('#szR').value.trim(),w=u.value;
+    if(w&&dateMs(w)<=todayMs()){toast('Pick a date after today, or use Reactivate now');return;}
+    list.forEach(t=>{if(stageOf(t)!=='snoozed')return;if(!one&&!r&&!w)return;if(one||r)t.snoozeReason=r;t.snoozeUntil=w;saveTask(t);});
+    d._close();renderAll();toast(w?`Will reactivate ${list.length>1?list.length+' tasks ':''}on ${fmtDate(w)}`:'Snooze details saved');
+  };
+  d.querySelector('#szOk').onclick=go;d.querySelector('#szR').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+}
+// Wake snoozed tasks whose date has arrived. Runs on load, after cloud updates, every minute and when the app comes back to the foreground.
+let waking=false;
+function wakeDueTasks(){
+  if(waking)return;
+  if(mode==='cloud'&&!cloud.loaded)return; // wait for fresh cloud data before changing anything
+  const today=addDaysYMD(0);
+  const due=tasks.filter(t=>inStage(t,'snoozed')&&t.snoozeUntil&&t.snoozeUntil<=today);
+  if(!due.length)return;
+  waking=true;
+  try{
+    sortList(due,'wake-asc').forEach(t=>{if(applyMove(t,'reactivate',{auto:true})){saveTask(t);}});
+    renderAll();
+    toast(due.length===1?`${shortSubj(due[0])} is back in Active (wake-up date reached) as ${serLabel(due[0])}`:`${due.length} snoozed tasks are back in Active (wake-up date reached)`,[{label:'Show',fn:()=>switchTab('active')}]);
+  }finally{waking=false;}
 }
 
 /* ================= Dialog helpers ================= */
@@ -848,23 +1327,48 @@ function confirmBox(msg,okLabel='Confirm',danger=false){
   });
 }
 let toastTimer=null;
-function toast(msg,undo){
+// toast(message) | toast(message, undoFn) | toast(message, [{label, fn}, ...])
+function toast(msg,acts){
   const t=$('#toast');t.hidden=false;
-  t.innerHTML=esc(msg)+(undo?' <button class="btn" style="margin-left:10px;min-height:28px;padding:3px 10px" id="toastUndo">Undo</button>':'');
-  if(undo)t.querySelector('#toastUndo').onclick=()=>{undo();t.hidden=true;};
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,undo?6000:3200);
+  if(typeof acts==='function')acts=[{label:'Undo',fn:acts}];
+  acts=acts||[];
+  t.innerHTML=`<span>${esc(msg)}</span>`+acts.map((a,i)=>`<button class="btn toast-btn" data-i="${i}">${esc(a.label)}</button>`).join('');
+  t.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{t.hidden=true;acts[+b.dataset.i].fn();});
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,acts.length?7000:3600);
 }
 
 /* ================= Task dialog ================= */
-function nextSer(){const n=tasks.filter(t=>!t.deleted).map(serNum).filter(x=>x<1e9);return String((n.length?Math.max(...n):0)+1);}
+function nextSer(){return nextSerIn('active');}
+function historyText(h){
+  const names={created:'Entered',complete:'Completed',reopen:'Returned to Active',snooze:'Snoozed',reactivate:'Reactivated',archive:'Archived',unarchive:'Restored to Completed',trashed:'Moved to Trash',restored:'Restored from Trash',whatsapp:'WhatsApp opened',imported:'Imported'};
+  let s=names[h.ev]||h.ev;
+  if(h.ser&&h.newSer&&h.ser!==h.newSer)s+=` (${h.ser} → ${h.newSer})`;else if(h.newSer)s+=` (${h.newSer})`;else if(h.ser)s+=` (was ${h.ser})`;
+  if(h.to&&h.ev==='whatsapp')s+=' · '+h.to;
+  if(h.type&&h.ev==='whatsapp')s+=' · '+(WA_TYPES[h.type]||h.type);
+  if(h.ev==='reactivate'&&h.auto)s+=' automatically (wake-up date)';
+  if(h.until&&h.ev==='snooze')s+=' · until '+fmtDate(h.until);
+  if(h.reason)s+=' · '+h.reason;
+  if(h.by)s+=' · by '+h.by;
+  return s;
+}
 function openTaskDlg(t){
   const isNew=!t;t=t||normTask({ser:nextSer(),cat:ui.cat!=='ALL'?ui.cat:(settings.categories.includes('Review')?'Review':settings.categories[0])});
+  const st=isNew?'active':stageOf(t);
   const customs=customCols();
+  const serLbl={active:'Serial (Active)',completed:'Serial (Completed)',snoozed:'Snooze no.',archived:'Archive no.'}[st];
+  const meta=[['Entered',fmtStamp(t.createdAt)||'Not recorded (older task)'],['Last updated',fmtStamp(t.updatedAt)],['Completed',st==='completed'||st==='archived'?fmtStamp(t.completedAt):''],['Snoozed',st==='snoozed'?fmtStamp(t.snoozedAt)+(t.snoozedBy?' by '+t.snoozedBy:''):''],['Wakes up',st==='snoozed'&&t.snoozeUntil?fmtDate(t.snoozeUntil):''],['Archived',st==='archived'?fmtStamp(t.archivedAt):''],['Original serial',(st==='snoozed'&&t.snoozedFromSer)?t.snoozedFromSer:(st==='archived'&&t.archivedFromSer)?t.archivedFromSer:''],['Last WhatsApp',t.lastWaAt?fmtStamp(t.lastWaAt):'']].filter(x=>x[1]);
+  const hist=(t.history||[]).slice().reverse();
   const body=`
+  ${!isNew?`<div class="stage-line"><span class="stg stg-${st}">${STAGE_LABEL[st]}</span>${st==='archived'?'<span class="hint">Archived tasks stay completed. Use “Restore to Completed” to change their status.</span>':''}</div>`:''}
   <div class="fgrid">
-    <div class="field"><label for="fSer">Serial</label><input id="fSer" value="${esc(t.ser)}" inputmode="decimal"></div>
-    <div class="field"><label for="fCat">Category</label><select id="fCat">${optList(settings.categories,t.cat)}</select></div>
+    <div class="field"><label for="fSer">${serLbl}</label><input id="fSer" value="${esc(isNew?t.ser:dispSer(t))}" inputmode="decimal"></div>
+    <div class="field"><label for="fCat">Category</label><select id="fCat">${optList(settings.categories.includes(t.cat)?settings.categories:settings.categories.concat([t.cat]),t.cat)}</select></div>
     <div class="field"><label for="fDate">Target date</label><input id="fDate" type="date" value="${esc(t.targetDate)}"></div>
+  </div>
+  <div class="row time-row">
+    <label class="inline-chk"><input type="checkbox" id="fTimeOn" ${t.targetTime?'checked':''}> Set a specific time</label>
+    <input id="fTime" type="time" value="${esc(t.targetTime||'')}" ${t.targetTime?'':'hidden'} aria-label="Target time">
+    <span class="hint" id="fTimeHint">${t.targetTime?'':'All-day task (no time).'}</span>
   </div>
   <div class="field"><label for="fSubj">Subject</label><input id="fSubj" value="${esc(t.subj)}" placeholder="Short tagline, e.g. Monthly supplies order" style="font-weight:600"></div>
   <div class="field"><label for="fCom">Gist / staff comments</label><textarea id="fCom" rows="5" placeholder="One point per line. Bullets are added on export.">${esc(t.comments)}</textarea><p class="hint">Each line becomes a bullet in the Word export.</p></div>
@@ -872,28 +1376,45 @@ function openTaskDlg(t){
     <div class="field"><label for="fAs">Assignment</label><select id="fAs">${optList(['Unassigned','Assigned'],t.assignedStatus)}</select></div>
     <div class="field"><label for="fAssignee">Assignee</label><input id="fAssignee" list="dlContacts2" value="${esc(t.assignee)}" placeholder="e.g. Office Assistant"><datalist id="dlContacts2">${settings.contacts.map(c=>`<option value="${esc(c.name)}"></option>`).join('')}</datalist></div>
     <div class="field"><label for="fPrio">Action / priority</label><select id="fPrio">${PRIORITIES.map(p=>`<option value="${p}"${p===t.priority?' selected':''}>${{IMP:'IMP — Important',Pri:'Pri — Priority',Pending:'Pending',Routine:'Routine'}[p]}</option>`).join('')}</select></div>
-    <div class="field"><label for="fStatus">Status</label><select id="fStatus">${optList(STATUSES,t.status)}</select></div>
+    <div class="field"><label for="fStatus">Status</label><select id="fStatus" ${st==='archived'?'disabled':''}>${optList(STATUSES,t.status)}</select></div>
   </div>
   <div class="field"><label for="fRem">Remarks</label><input id="fRem" value="${esc(t.remarks)}" placeholder="e.g. Keep watch / follow the case"></div>
+  ${st==='snoozed'?`<div class="fgrid two"><div class="field"><label for="fSzR">Snooze reason (optional)</label><input id="fSzR" value="${esc(t.snoozeReason||'')}" placeholder="Why this is set aside"></div><div class="field"><label for="fSzU">Reactivate automatically on</label><input id="fSzU" type="date" min="${addDaysYMD(1)}" value="${esc(t.snoozeUntil||'')}"><p class="hint">Leave blank to reactivate manually.</p></div></div>`:''}
   ${customs.map(c=>`<div class="field"><label for="fc_${esc(c.id)}">${esc(c.label)}</label><input id="fc_${esc(c.id)}" data-cid="${esc(c.id)}" value="${esc(t[c.id]||'')}"></div>`).join('')}
-  ${t.targetDate?`<p class="hint">${icon('cal')} <a href="${esc(gcalLink(t))}" target="_blank" rel="noopener">Add a reminder to Google Calendar</a></p>`:''}`;
-  const d=openDlg({title:isNew?'Add task':'Edit task',body,footer:`${!isNew?`<button class="btn wa left" id="fWa">${icon('msg')}WhatsApp</button>`:''}<button class="btn" data-close>Cancel</button><button class="btn primary" id="fSave">${isNew?'Add task':'Save changes'}</button>`});
-  const as=d.querySelector('#fAs'),an=d.querySelector('#fAssignee');
+  ${t.targetDate?`<p class="hint">${icon('cal')} <a href="${esc(gcalLink(t))}" target="_blank" rel="noopener">Add a reminder to Google Calendar</a></p>`:''}
+  ${!isNew?`<div class="meta">${meta.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>
+  ${hist.length?`<details class="hist"><summary>History (${hist.length})</summary><ol>${hist.map(h=>`<li><span class="num">${esc(fmtStamp(h.at))}</span> ${esc(historyText(h))}</li>`).join('')}</ol></details>`:''}`:''}`;
+  const lifeBtn=isNew?'':{active:['snooze','snooze','Snooze'],completed:['archive','archive','Archive'],snoozed:['reactivate','play','Reactivate'],archived:['unarchive','undo','Restore to Completed']}[st];
+  const d=openDlg({title:isNew?'Add task':(st==='archived'?'Archived task':'Edit task'),body,footer:`${!isNew&&st!=='archived'?`<button class="btn wa left" id="fWa">${icon('msg')}WhatsApp</button>`:''}${lifeBtn?`<button class="btn${st==='archived'?' left':''}" id="fLife">${icon(lifeBtn[1])}${lifeBtn[2]}</button>`:''}<button class="btn" data-close>Cancel</button><button class="btn primary" id="fSave">${isNew?'Add task':'Save changes'}</button>`});
+  const as=d.querySelector('#fAs'),an=d.querySelector('#fAssignee'),ton=d.querySelector('#fTimeOn'),tin=d.querySelector('#fTime'),th=d.querySelector('#fTimeHint');
   an.addEventListener('input',()=>{if(an.value.trim())as.value='Assigned';});
+  ton.addEventListener('change',()=>{tin.hidden=!ton.checked;th.textContent=ton.checked?'':'All-day task (no time).';if(ton.checked&&!tin.value)tin.focus();});
   const collect=()=>{
-    t.ser=d.querySelector('#fSer').value.trim()||nextSer();t.cat=d.querySelector('#fCat').value;t.targetDate=d.querySelector('#fDate').value;
+    const stage=isNew?'active':stageOf(t);
+    const serIn=d.querySelector('#fSer').value.trim();
+    t[SER_KEY[stage]]=serIn||nextSerIn(stage,t);
+    t.cat=d.querySelector('#fCat').value;t.targetDate=d.querySelector('#fDate').value;
+    t.targetTime=(t.targetDate&&ton.checked)?validTime(tin.value):'';
     t.subj=d.querySelector('#fSubj').value.trim();t.comments=d.querySelector('#fCom').value.trim();
     t.assignedStatus=as.value;t.assignee=as.value==='Assigned'?an.value.trim():'';
-    t.priority=d.querySelector('#fPrio').value;t.status=d.querySelector('#fStatus').value;t.remarks=d.querySelector('#fRem').value.trim();
+    t.priority=d.querySelector('#fPrio').value;t.remarks=d.querySelector('#fRem').value.trim();
+    const sz=d.querySelector('#fSzR');if(sz)t.snoozeReason=sz.value.trim();
+    const su=d.querySelector('#fSzU');if(su)t.snoozeUntil=su.value&&dateMs(su.value)!=null?su.value:'';
     d.querySelectorAll('[data-cid]').forEach(i=>t[i.dataset.cid]=i.value.trim());
+    const fs=d.querySelector('#fStatus');if(!fs.disabled)setStatus(t,fs.value);
   };
   d.querySelector('#fSave').onclick=()=>{
     if(!d.querySelector('#fSubj').value.trim()){d.querySelector('#fSubj').focus();toast('Add a subject first');return;}
+    if(ton.checked&&!d.querySelector('#fDate').value){toast('Pick a target date before setting a time');return;}
+    const before=isNew?'active':stageOf(t);
     collect();
-    if(isNew){tasks.push(t);ui.selected.add(t.id);}
-    saveTask(t);d._close();renderAll();toast(isNew?'Task added':'Changes saved');
+    if(isNew){t.createdAt=Date.now();logEv(t,'created',{newSer:serLabel(t),by:who()||undefined});tasks.push(t);}
+    saveTask(t);d._close();renderAll();
+    const after=stageOf(t);
+    toast(isNew?`Task added as ${serLabel(t)}`+(after!=='active'?` in ${tabName(after)}`:''):(after!==before?`Saved · moved to ${tabName(after)}`:'Changes saved'));
   };
-  const wa=d.querySelector('#fWa');if(wa)wa.onclick=()=>{collect();saveTask(t);d._close();renderAll();openWaDlg([t],isOverdue(t));};
+  const life=d.querySelector('#fLife');if(life)life.onclick=()=>{collect();saveTask(t);d._close();singleMove(t,lifeBtn[0]);};
+  const wa=d.querySelector('#fWa');if(wa)wa.onclick=()=>{collect();saveTask(t);d._close();renderAll();openComposer([t],{});};
 }
 
 /* ================= Columns / categories / contacts ================= */
@@ -902,7 +1423,7 @@ function openColumnsDlg(){
   const d=openDlg({title:'Columns',body:'',footer:`<button class="btn ghost left" id="colReset">Reset to default</button><button class="btn" data-close>Cancel</button><button class="btn primary" id="colSave">Save</button>`});
   const body=d.querySelector('.body');
   const draw=()=>{
-    body.innerHTML=`<p class="hint">Tick to show a column, rename headers, reorder with the arrows, or add your own fields.</p><div class="list">${cols.map((c,i)=>`<div class="li"><input type="checkbox" data-i="${i}" class="cv" ${c.visible?'checked':''} aria-label="Show ${esc(c.label)}"><input type="text" data-i="${i}" class="cl" value="${esc(c.label)}"><button class="btn ghost icon" data-up="${i}" title="Move up" ${i===0?'disabled':''}>↑</button><button class="btn ghost icon" data-dn="${i}" title="Move down" ${i===cols.length-1?'disabled':''}>↓</button>${c.default?'<span class="tag">Built-in</span>':`<button class="btn ghost icon danger" data-del="${i}" title="Remove column">${icon('trash')}</button>`}</div>`).join('')}</div>
+    body.innerHTML=`<p class="hint">Tick to show a column, rename headers, reorder with the arrows, or add your own fields. “Entered” shows when each task was created.</p><div class="list">${cols.map((c,i)=>`<div class="li"><input type="checkbox" data-i="${i}" class="cv" ${c.visible?'checked':''} aria-label="Show ${esc(c.label)}"><input type="text" data-i="${i}" class="cl" value="${esc(c.label)}"><button class="btn ghost icon" data-up="${i}" title="Move up" ${i===0?'disabled':''}>↑</button><button class="btn ghost icon" data-dn="${i}" title="Move down" ${i===cols.length-1?'disabled':''}>↓</button>${c.default?'<span class="tag">Built-in</span>':`<button class="btn ghost icon danger" data-del="${i}" title="Remove column">${icon('trash')}</button>`}</div>`).join('')}</div>
     <div class="row"><input id="newCol" placeholder="New column name, e.g. Department"><button class="btn" id="addCol">${icon('plus')}Add column</button></div>`;
   };
   const sync=()=>{body.querySelectorAll('.cv').forEach(c=>cols[c.dataset.i].visible=c.checked);body.querySelectorAll('.cl').forEach(c=>{if(c.value.trim())cols[c.dataset.i].label=c.value.trim();});};
@@ -923,7 +1444,7 @@ function openCategoriesDlg(){
   const d=openDlg({title:'Categories',body:'',footer:`<button class="btn primary" data-close>Done</button>`});
   const body=d.querySelector('.body');
   const draw=()=>{body.innerHTML=`<div class="row"><input id="newCat" placeholder="New category name"><button class="btn primary" id="addCat">${icon('plus')}Add</button></div>
-    <div class="list">${settings.categories.map((c,i)=>`<div class="li"><span style="flex:1;font-weight:600">${esc(c)}</span><span class="tag">${tasks.filter(t=>!t.deleted&&t.cat===c).length} tasks</span><button class="btn ghost icon" data-up="${i}" ${i===0?'disabled':''}>↑</button><button class="btn ghost icon danger" data-del="${i}" title="Delete category">${icon('trash')}</button></div>`).join('')}</div><p class="hint">Deleting a category moves its tasks to “Review”. Order here is the order used in Word exports.</p>`;};
+    <div class="list">${settings.categories.map((c,i)=>`<div class="li"><span style="flex:1;font-weight:600">${esc(c)}</span><span class="tag">${tasks.filter(t=>!t.deleted&&t.cat===c).length} tasks</span><button class="btn ghost icon" data-up="${i}" ${i===0?'disabled':''}>↑</button><button class="btn ghost icon danger" data-del="${i}" title="Delete category">${icon('trash')}</button></div>`).join('')}</div><p class="hint">Deleting a category moves its tasks to “Review”. Order here is the order used in Word exports and category grouping.</p>`;};
   draw();
   body.addEventListener('click',async e=>{
     const b=e.target.closest('button');if(!b)return;
@@ -943,177 +1464,326 @@ function openCategoriesDlg(){
 }
 function normPhone(p){
   let d=String(p||'').replace(/[^\d+]/g,'');
-  if(d.startsWith('+'))return d.slice(1);
+  if(d.startsWith('+'))return d.slice(1).replace(/\D/g,'');
   if(d.startsWith('00'))return d.slice(2);
   if(d.startsWith('0'))return (settings.countryCode||'92')+d.slice(1);
-  return d;
+  return d.replace(/\D/g,'');
 }
 function matchContact(name){
   const n=String(name||'').toLowerCase().trim();if(!n)return null;
-  return settings.contacts.find(c=>c.name.toLowerCase().trim()===n)||settings.contacts.find(c=>{const cn=c.name.toLowerCase();return cn.includes(n)||n.includes(cn);})||null;
+  return settings.contacts.find(c=>String(c.name||'').toLowerCase().trim()===n)||settings.contacts.find(c=>{const cn=String(c.name||'').toLowerCase().trim();return cn&&(cn.includes(n)||n.includes(cn));})||null;
 }
 function openContactsDlg(){
   let list=plain(settings.contacts);
-  const names=[...new Set(tasks.filter(t=>!t.deleted&&t.assignee).map(t=>t.assignee.trim()))].filter(n=>!list.some(c=>c.name.toLowerCase()===n.toLowerCase()));
-  const d=openDlg({title:'Assignee contacts',body:'',footer:`<button class="btn" data-close>Cancel</button><button class="btn primary" id="ctSave">Save contacts</button>`});
+  const names=[...new Set(tasks.filter(t=>!t.deleted&&t.assignee).map(t=>t.assignee.trim()))].filter(n=>!list.some(c=>String(c.name||'').toLowerCase()===n.toLowerCase()));
+  const d=openDlg({title:'Assignee contacts',body:'',footer:`<button class="btn ghost left" id="ctTpl">${icon('msg')}Default templates</button><button class="btn" data-close>Cancel</button><button class="btn primary" id="ctSave">Save contacts</button>`});
   const body=d.querySelector('.body');
-  const draw=()=>{body.innerHTML=`<p class="hint">Save each assignee's WhatsApp number once. Numbers starting with 0 get the country code below, so 0300 1234567 becomes +92 300 1234567.</p>
+  const draw=()=>{body.innerHTML=`<p class="hint">Save each assignee's WhatsApp number once. Numbers starting with 0 get the country code below, so 0300 1234567 becomes +92 300 1234567. Use “Template” to give someone their own message wording.</p>
     <div class="row"><span class="lbl">Country code</span><input id="ctCC" value="${esc(settings.countryCode)}" style="max-width:90px;flex:0" inputmode="numeric"></div>
-    <div class="list">${list.map((c,i)=>`<div class="li"><input type="text" data-i="${i}" data-k="name" value="${esc(c.name)}" placeholder="Name / appointment"><input type="tel" data-i="${i}" data-k="phone" value="${esc(c.phone)}" placeholder="03xx xxxxxxx"><button class="btn ghost icon danger" data-del="${i}" title="Remove">${icon('trash')}</button></div>`).join('')||'<p class="hint">No contacts yet.</p>'}</div>
+    <div class="list">${list.map((c,i)=>`<div class="li ct-row"><input type="text" data-i="${i}" data-k="name" value="${esc(c.name)}" placeholder="Name / appointment"><input type="tel" data-i="${i}" data-k="phone" value="${esc(c.phone)}" placeholder="03xx xxxxxxx"><button class="btn ghost ct-tpl" data-tpl="${i}" title="Message template for this person">${c.tplMode==='custom'?'Custom':'Default'} template</button><button class="btn ghost icon danger" data-del="${i}" title="Remove">${icon('trash')}</button></div>`).join('')||'<p class="hint">No contacts yet.</p>'}</div>
     <div class="row"><button class="btn" id="ctAdd">${icon('plus')}Add contact</button>${names.length?`<span class="hint">From your tasks:</span>${names.slice(0,8).map(n=>`<button class="btn ghost" data-quick="${esc(n)}">+ ${esc(n)}</button>`).join('')}`:''}</div>`;};
   const sync=()=>body.querySelectorAll('[data-k]').forEach(i=>list[i.dataset.i][i.dataset.k]=i.value.trim());
+  const commit=()=>{sync();settings.countryCode=(body.querySelector('#ctCC').value||'92').replace(/\D/g,'')||'92';settings.contacts=list.filter(c=>c.name||c.phone);saveSettings();};
   draw();
   body.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sync();
     if(b.id==='ctAdd')list.push({id:uidGen(),name:'',phone:''});
     else if(b.dataset.del)list.splice(+b.dataset.del,1);
     else if(b.dataset.quick){list.push({id:uidGen(),name:b.dataset.quick,phone:''});names.splice(names.indexOf(b.dataset.quick),1);}
+    else if(b.dataset.tpl){const c=list[+b.dataset.tpl];if(!c.name){toast('Enter a name first');return;}commit();d._close();openTemplatesDlg(c.id);return;}
     else return; draw();
     const last=body.querySelectorAll('[data-k="phone"]');if(b.dataset.quick&&last.length)last[last.length-1].focus();
   });
-  d.querySelector('#ctSave').onclick=()=>{sync();settings.countryCode=(body.querySelector('#ctCC').value||'92').replace(/\D/g,'')||'92';settings.contacts=list.filter(c=>c.name||c.phone);saveSettings();d._close();renderAll();toast('Contacts saved');};
+  d.querySelector('#ctTpl').onclick=()=>{commit();d._close();openTemplatesDlg(null);};
+  d.querySelector('#ctSave').onclick=()=>{commit();d._close();renderAll();toast('Contacts saved');};
 }
 
 /* ================= WhatsApp ================= */
-function fieldValue(t,f){
-  switch(f){
-    case 'assignee':return t.assignedStatus==='Assigned'?(t.assignee||''):'Unassigned';
-    case 'action':return t.priority||'';
-    case 'targetDate':{if(!t.targetDate)return'';const d=daysLeft(t);let s=fmtDate(t.targetDate);if(!isDone(t)&&d!==null){if(d<0)s+=` (overdue by ${-d} day${d===-1?'':'s'})`;else if(d===0)s+=' (due today)';}return s;}
-    default:return t[f]||'';
-  }
+// Browser limitation: wa.me links open a chat with the message filled in; the user still presses Send.
+// Nothing here ever reports a message as "sent".
+const WA_VARS=[['name','Recipient name, or their “Address as” text'],['subj','Subject'],['comments','Gist / staff comments (several lines become bullets)'],['ser','Serial in its register'],['cat','Category'],['action','Action code, e.g. IMP'],['priority','Priority in words'],['status','Status'],['targetDate','Target date'],['targetTime','Target time (blank for all-day tasks)'],['due','e.g. “overdue by 2 days”'],['remarks','Remarks'],['assignee','Assignee'],['created','Date entered'],['completedOn','Date completed'],['n','Task number, e.g. 1.'],['count','Number of tasks in the message'],['signature','Your signature'],['today','Today’s date']];
+function contactFor(t){return t.assignedStatus==='Assigned'&&t.assignee?matchContact(t.assignee):null;}
+function isCustom(c){return !!(c&&c.tplMode==='custom');}
+function effTpl(type,contact){
+  const g=(settings.wa.templates||{})[type]||defaultWaTemplates()[type];
+  const o=(isCustom(contact)&&contact.tpl&&contact.tpl[type])||{};
+  return {intro:o.intro||g.intro,item:o.item||g.item,closing:o.closing||g.closing,custom:!!(o.intro||o.item||o.closing)};
 }
-function fieldLabel(f){const c=settings.columns.find(c=>c.id===f);if(FIELD_DEFS[f])return f==='comments'?'Gist':FIELD_DEFS[f].label==='Subj'?'Subject':FIELD_DEFS[f].label;return c?c.label:f;}
-function buildWaText(list,fields,intro,name,reminder){
-  const lines=[];
-  if(intro)lines.push(intro.replace(/\{name\}/g,name||'Sir'));
-  if(reminder)lines.push(list.length>1?'*Reminder: the following tasks are overdue.*':'*Reminder: this task is overdue.*');
-  list.forEach((t,i)=>{
-    lines.push('');
-    const head=(list.length>1?`${i+1}. `:'')+(fields.includes('ser')&&t.ser?`Ser ${t.ser} – `:'')+(fields.includes('subj')?`*${t.subj||'Task'}*`:'');
-    if(head.trim())lines.push(head);
-    fields.filter(f=>f!=='ser'&&f!=='subj').forEach(f=>{
-      const v=fieldValue(t,f);if(!v)return;
-      if(f==='comments'){lines.push(fieldLabel(f)+':');v.split('\n').map(s=>s.trim()).filter(Boolean).forEach(s=>lines.push(s.startsWith('•')?s:'• '+s));}
-      else lines.push(`${fieldLabel(f)}: ${v}`);
-    });
+function waSignature(contact){return (isCustom(contact)&&contact.signature)||settings.wa.signature||'';}
+function greetName(contact,fallback){return (contact&&(contact.greet||contact.name))||fallback||'Sir';}
+function shortDates(){return settings.wa.dateFmt==='short';}
+function taskVars(t){
+  const c=String(t.comments||'').split('\n').map(s=>s.trim().replace(/^[•\-]\s*/,'')).filter(Boolean);
+  const v={subj:t.subj||'',comments:c.length>1?'\n'+c.map(s=>'• '+s).join('\n'):(c[0]||''),ser:serLabel(t),cat:t.cat||'',action:t.priority||'',priority:PRIO_LONG[t.priority]||t.priority||'',status:statusLabel(t),
+    targetDate:t.targetDate?fmtDate(t.targetDate,shortDates()):'',targetTime:t.targetTime||'',due:dueWords(t),remarks:t.remarks||'',assignee:assigneeName(t),
+    created:t.createdAt?fmtDate(localYMD(new Date(t.createdAt)),shortDates()):'',completedOn:tsOf(t.completedAt)?fmtDate(localYMD(new Date(tsOf(t.completedAt))),shortDates()):''};
+  customCols().forEach(col=>v[col.id]=t[col.id]||'');
+  return v;
+}
+// Fill one template block. A line whose placeholders are all empty is dropped, so no "Remarks:" with nothing after it.
+function fillBlock(tpl,vars){
+  const has=k=>vars[k]!=null&&String(vars[k]).trim()!=='';
+  const out=[];
+  String(tpl||'').split('\n').forEach(line=>{
+    const keys=[...line.matchAll(/\{(\w+)\}/g)].map(m=>m[1]);
+    if(keys.length&&!keys.some(has))return;
+    out.push(line.replace(/\{(\w+)\}/g,(m,k)=>has(k)?String(vars[k]):'').replace(/\(\s*\)/g,'').replace(/^ +/,'').split('\n').map(x=>x.replace(/[ \t]+$/,'')).join('\n'));
   });
-  lines.push('');lines.push(reminder?'Please update the status at the earliest.':'Please confirm once done.');
-  if(settings.waSign)lines.push(settings.waSign);
-  return lines.join('\n');
+  return out.join('\n');
 }
-function openWaDlg(list,reminder){
+function numLabel(i){const f=settings.wa.numbering;return f==='none'?'':f==='•'?'•':f==='1)'?(i+1)+')':(i+1)+'.';}
+function buildMessage(list,type,contact,fallbackName){
+  const tpl=effTpl(type,contact);
+  const base={name:greetName(contact,fallbackName),signature:waSignature(contact),today:fmtDate(localYMD(new Date()),shortDates()),count:String(list.length)};
+  const items=list.map((t,i)=>fillBlock(tpl.item,Object.assign({},taskVars(t),base,{n:numLabel(i)})));
+  const sep=settings.wa.separator==='line'?'\n──────────\n':'\n\n';
+  return [fillBlock(tpl.intro,base),items.join(sep),fillBlock(tpl.closing,base)].filter(s=>s.trim()).join('\n\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function autoType(list){
+  if(list.length&&list.every(isOverdue))return 'overdue';
+  if(list.length&&list.every(t=>['completed','archived'].includes(stageOf(t))))return 'completion';
+  if(list.some(t=>t.lastWaAt))return 'followup';
+  return 'assign';
+}
+function waUrl(phone,text){return 'https://wa.me/'+(phone||'')+'?text='+encodeURIComponent(text);}
+function openWa(url){const w=window.open(url,'_blank');if(w){try{w.opener=null;}catch(e){}}return !!w;}
+function markWa(list,type,toName){const now=new Date().toISOString();list.forEach(t=>{t.lastWaAt=now;t.lastWaType=type;logEv(t,'whatsapp',{type,to:toName||undefined});saveTask(t);});}
+const waLock=new Map();
+function locked(key){const n=Date.now();if((waLock.get(key)||0)>n)return true;waLock.set(key,n+2500);return false;}
+
+// Row icon: fastest path. Opens the assignee's chat with the right template; no dialog when a number is saved.
+function quickWhatsApp(t){
+  const c=contactFor(t),phone=c&&normPhone(c.phone);
+  if(!phone||settings.wa.previewSingle){openComposer([t],{contact:c});return;}
+  if(locked('t:'+t.id)){toast('WhatsApp is already opening for this task');return;}
+  const type=autoType([t]);const text=buildMessage([t],type,c);
+  if(!openWa(waUrl(phone,text))){openComposer([t],{contact:c,type,note:'Your browser blocked the new tab. Use “Open WhatsApp” below.'});return;}
+  markWa([t],type,c.name);renderAll();
+  toast(`WhatsApp opened for ${c.name} (${WA_TYPES[type]}). Press Send in WhatsApp.`,[{label:'Edit message',fn:()=>openComposer([t],{contact:c,type})}]);
+}
+
+// Composer: preview, edit and open one message for one recipient
+function openComposer(list,opts){
+  opts=opts||{};
   if(!list.length){toast('Select at least one task');return;}
-  const fieldOpts=['ser','subj','comments','assignee','action','status','targetDate','remarks'].concat(customCols().map(c=>c.id));
-  let fields=settings.waFields.filter(f=>fieldOpts.includes(f));
-  const assignees=[...new Set(list.map(t=>t.assignee).filter(Boolean))];
-  let contact=matchContact(assignees[0]);
-  const d=openDlg({title:reminder?'Send overdue reminder':'Send task on WhatsApp',wide:false,body:`
+  const names=[...new Set(list.map(assigneeName).filter(Boolean))];
+  let contact=opts.contact!==undefined?opts.contact:(names.length===1?matchContact(names[0]):null);
+  const fallback=opts.name||names[0]||'';
+  const d=openDlg({title:list.length>1?`WhatsApp · ${list.length} tasks`:'WhatsApp message',body:`
+    ${opts.note?`<div class="note">${esc(opts.note)}</div>`:''}
+    ${names.length>1?`<div class="note warn"><b>Mixed assignees.</b> These tasks belong to ${names.length} people (${esc(names.join(', '))}). The recipient will see all of them. Use the bulk WhatsApp button to send each person only their own tasks.</div>`:''}
     <div class="fgrid two">
-      <div class="field"><label for="waTo">Send to</label><select id="waTo"><option value="">Type a number…</option>${settings.contacts.map(c=>`<option value="${esc(c.id)}"${contact&&contact.id===c.id?' selected':''}>${esc(c.name)}${c.phone?' · '+esc(c.phone):''}</option>`).join('')}</select></div>
-      <div class="field"><label for="waNum">WhatsApp number</label><input id="waNum" type="tel" value="${esc(contact?contact.phone:'')}" placeholder="03xx xxxxxxx"></div>
+      <div class="field"><label for="waTo">Send to</label><select id="waTo"><option value="">Other number…</option>${settings.contacts.map(c=>`<option value="${esc(c.id)}"${contact&&contact.id===c.id?' selected':''}>${esc(c.name)}${c.phone?' · '+esc(c.phone):' · no number'}</option>`).join('')}</select></div>
+      <div class="field"><label for="waNum">WhatsApp number</label><input id="waNum" type="tel" value="${esc(contact?contact.phone||'':'')}" placeholder="03xx xxxxxxx"></div>
+      <div class="field"><label for="waType">Message type</label><select id="waType">${Object.entries(WA_TYPES).map(([k,l])=>`<option value="${k}">${esc(l)}</option>`).join('')}</select></div>
+      <div class="field"><span class="lbl">Template</span><p class="hint" id="waSrc" style="margin-top:6px"></p></div>
     </div>
-    ${assignees.length>1?`<p class="hint">These tasks have ${assignees.length} different assignees. Send one message per person for clarity.</p>`:''}
-    ${!contact&&assignees[0]?`<p class="hint">No saved number for “${esc(assignees[0])}”. Enter it once; tick below to save it.</p><div class="checks"><label><input type="checkbox" id="waSaveC" checked> Save number for ${esc(assignees[0])}</label></div>`:''}
-    <div class="field"><span class="lbl">Include these fields</span><div class="checks" id="waFields">${fieldOpts.map(f=>`<label><input type="checkbox" value="${esc(f)}" ${fields.includes(f)?'checked':''}> ${esc(f==='subj'?'Subject':fieldLabel(f))}</label>`).join('')}</div></div>
-    <div class="field"><label for="waIntro">Opening line</label><input id="waIntro" value="${esc(settings.waIntro)}"><p class="hint">{name} is replaced with the assignee's name.</p></div>
-    <div class="field"><label for="waMsg">Message</label><textarea id="waMsg" rows="10"></textarea></div>`,
-    footer:`<button class="btn left" id="waCopy">${icon('copy')}Copy text</button><button class="btn" data-close>Close</button><a class="btn wa" id="waGo" target="_blank" rel="noopener">${icon('msg')}Open WhatsApp</a>`});
-  const msg=d.querySelector('#waMsg'),num=d.querySelector('#waNum'),go=d.querySelector('#waGo');
-  const nameFor=()=>{const sel=settings.contacts.find(c=>c.id===d.querySelector('#waTo').value);return sel?sel.name:(assignees[0]||'');};
-  const rebuild=()=>{fields=[...d.querySelectorAll('#waFields input:checked')].map(i=>i.value);msg.value=buildWaText(list,fields,d.querySelector('#waIntro').value,nameFor(),reminder);link();};
-  const link=()=>{const n=normPhone(num.value);go.href=n?`https://wa.me/${n}?text=${encodeURIComponent(msg.value)}`:`https://wa.me/?text=${encodeURIComponent(msg.value)}`;};
-  d.querySelector('#waTo').onchange=e=>{const c=settings.contacts.find(c=>c.id===e.target.value);num.value=c?c.phone:'';rebuild();};
-  d.querySelector('#waFields').onchange=rebuild;
-  d.querySelector('#waIntro').oninput=rebuild;
-  num.oninput=link;msg.oninput=link;
+    ${!contact&&fallback&&!matchContact(fallback)?`<div class="checks"><label><input type="checkbox" id="waSaveC" checked> Save this number for ${esc(fallback)}</label></div>`:''}
+    <div class="field"><label for="waMsg">Message (you can edit it before opening)</label><textarea id="waMsg" rows="12"></textarea></div>
+    <p class="hint">WhatsApp opens with this message filled in. It is not sent until you press Send in WhatsApp.</p>`,
+    footer:`<button class="btn left" id="waTplBtn">${icon('gear')}Templates</button><button class="btn" id="waCopy">${icon('copy')}Copy</button><button class="btn" data-close>Close</button><button class="btn wa" id="waGo">${icon('msg')}Open WhatsApp</button>`});
+  const msg=d.querySelector('#waMsg'),num=d.querySelector('#waNum'),go=d.querySelector('#waGo'),typeSel=d.querySelector('#waType'),to=d.querySelector('#waTo');
+  typeSel.value=opts.type||autoType(list);
+  const rebuild=()=>{
+    const tp=effTpl(typeSel.value,contact);
+    d.querySelector('#waSrc').textContent=tp.custom?`Custom template for ${contact.name}`:'Global default template';
+    msg.value=buildMessage(list,typeSel.value,contact,fallback);
+  };
+  to.onchange=()=>{contact=settings.contacts.find(c=>c.id===to.value)||null;num.value=contact?contact.phone||'':'';rebuild();};
+  typeSel.onchange=rebuild;
   rebuild();
   const remember=()=>{
-    settings.waFields=fields;settings.waIntro=d.querySelector('#waIntro').value;
     const sc=d.querySelector('#waSaveC');
-    if(sc&&sc.checked&&num.value.trim()&&assignees[0]&&!matchContact(assignees[0]))settings.contacts.push({id:uidGen(),name:assignees[0],phone:num.value.trim()});
-    saveSettings();
+    if(sc&&sc.checked&&num.value.trim()&&fallback&&!matchContact(fallback)){settings.contacts.push({id:uidGen(),name:fallback,phone:num.value.trim()});saveSettings();}
   };
-  go.addEventListener('click',()=>{remember();if(reminder){list.forEach(t=>{t.lastReminded=new Date().toISOString().slice(0,10);saveTask(t);});}toast('WhatsApp opened in a new tab');});
-  d.querySelector('#waCopy').onclick=async()=>{remember();try{await navigator.clipboard.writeText(msg.value);toast('Message copied');}catch(e){msg.focus();msg.select();toast('Press copy to copy the selected text');}};
+  go.onclick=()=>{
+    if(locked('c:'+list.map(t=>t.id).join(','))){toast('Already opened. Wait a moment before opening again.');return;}
+    const phone=normPhone(num.value);
+    remember();
+    if(!openWa(waUrl(phone,msg.value))){toast('Your browser blocked the new tab. Allow pop-ups for this site, or use Copy.');return;}
+    markWa(list,typeSel.value,contact?contact.name:(phone?'+'+phone:'chosen in WhatsApp'));
+    go.innerHTML=icon('check')+'Opened';setTimeout(()=>{go.innerHTML=icon('msg')+'Open again';},2500);
+    if(opts.onOpened)opts.onOpened();
+    renderAll();
+    toast(phone?'WhatsApp opened. Press Send there to deliver it.':'WhatsApp opened. Pick the chat, then press Send.');
+  };
+  d.querySelector('#waCopy').onclick=async()=>{try{await navigator.clipboard.writeText(msg.value);toast('Message copied');}catch(e){msg.focus();msg.select();toast('Select all and copy the text');}};
+  d.querySelector('#waTplBtn').onclick=()=>{d._close();openTemplatesDlg(contact?contact.id:null);};
 }
-function remindAll(){
-  const over=tasks.filter(isOverdue);
-  const groups={};over.forEach(t=>{const k=(t.assignedStatus==='Assigned'&&t.assignee)||'Unassigned';(groups[k]=groups[k]||[]).push(t);});
-  const keys=Object.keys(groups);
-  if(keys.length===1){openWaDlg(groups[keys[0]],true);return;}
-  const d=openDlg({title:'Overdue reminders',body:`<p class="hint">Send one reminder per assignee. Each opens WhatsApp with their overdue tasks.</p><div class="list">${keys.map(k=>{const c=matchContact(k);return `<div class="li"><div style="flex:1;min-width:0"><b>${esc(k)}</b><div class="hint">${groups[k].length} overdue · ${c&&c.phone?esc(c.phone):'no number saved'}</div></div><button class="btn wa" data-k="${esc(k)}">${icon('bell')}Remind</button></div>`;}).join('')}</div>`,footer:`<button class="btn" data-close>Close</button>`});
-  d.querySelector('.body').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b){openWaDlg(groups[b.dataset.k],true);}});
+
+// Bulk: one message per assignee, so nobody sees another person's tasks
+function bulkWhatsApp(list,forceType){
+  if(!list.length){toast('Select tasks first');return;}
+  const groups=new Map();
+  list.forEach(t=>{const n=assigneeName(t);const k=n?n.toLowerCase():'-';if(!groups.has(k))groups.set(k,{name:n,items:[]});groups.get(k).items.push(t);});
+  const gs=[...groups.values()].sort((a,b)=>(a.name?0:1)-(b.name?0:1)||a.name.localeCompare(b.name));
+  if(gs.length===1&&gs[0].name){openComposer(gs[0].items,{contact:matchContact(gs[0].name),name:gs[0].name,type:forceType});return;}
+  const d=openDlg({title:`WhatsApp · ${gs.length} recipients`,wide:false,body:`
+    <p class="hint">Each person gets one message with only their own tasks. Browsers open one WhatsApp chat per click, so open them one at a time and press Send in each.</p>
+    <div class="list">${gs.map((g,i)=>{const c=g.name?matchContact(g.name):null,ph=c&&normPhone(c.phone);return `<div class="li wa-grp" data-g="${i}"><div style="flex:1;min-width:0"><b>${esc(g.name||'Unassigned tasks')}</b> <span class="tag">${plural(g.items.length,'task')}</span><div class="hint">${g.name?(ph?esc(c.phone):'No number saved'):'No assignee. Choose a recipient yourself.'}</div><div class="hint grp-subj">${esc(g.items.map(t=>t.subj).slice(0,3).join(' · '))}${g.items.length>3?' …':''}</div><div class="hint grp-state" id="gs${i}"></div></div><div class="grp-btns"><button class="btn" data-prev="${i}">Preview</button>${ph?`<button class="btn wa" data-open="${i}">${icon('msg')}Open</button>`:''}</div></div>`;}).join('')}</div>`,
+    footer:`<button class="btn" data-close>Done</button>`});
+  const mark=i=>{const el=d.querySelector('#gs'+i);if(el)el.textContent='Opened in WhatsApp at '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'. Press Send there.';};
+  d.querySelector('.body').addEventListener('click',e=>{
+    const p=e.target.closest('[data-prev]'),o=e.target.closest('[data-open]');
+    if(p){const i=+p.dataset.prev,g=gs[i];openComposer(g.items,{contact:g.name?matchContact(g.name):null,name:g.name,type:forceType,onOpened:()=>mark(i)});}
+    if(o){const i=+o.dataset.open,g=gs[i],c=matchContact(g.name);
+      if(locked('g:'+i+':'+g.items.map(t=>t.id).join(','))){toast('Already opened. Wait a moment.');return;}
+      const type=forceType||autoType(g.items);
+      if(!openWa(waUrl(normPhone(c.phone),buildMessage(g.items,type,c)))){toast('Your browser blocked the new tab. Use Preview, then Open WhatsApp.');return;}
+      markWa(g.items,type,c.name);mark(i);renderAll();}
+  });
+}
+function remindAll(){bulkWhatsApp(tasks.filter(isOverdue),'overdue');}
+
+/* ---------- Template settings (global, or one contact's overrides) ---------- */
+function openTemplatesDlg(contactId){
+  const contact=contactId?settings.contacts.find(c=>c.id===contactId):null;
+  const wa=plain(settings.wa);
+  const ct=contact?{tplMode:contact.tplMode||'default',tpl:plain(contact.tpl||{}),signature:contact.signature||'',greet:contact.greet||''}:null;
+  let type='assign',lastTa=null;
+  const sample=sortList(tasks.filter(t=>!t.deleted),'ser-asc').slice(0,150);
+  const g=k=>(wa.templates[type]||{})[k]||'';
+  const d=openDlg({title:contact?`Template for ${contact.name}`:'WhatsApp templates',wide:true,body:`
+    ${contact?`<div class="checks" id="tpMode"><label><input type="radio" name="tpm" value="default" ${ct.tplMode!=='custom'?'checked':''}> Use the global default</label><label><input type="radio" name="tpm" value="custom" ${ct.tplMode==='custom'?'checked':''}> Use a custom template for ${esc(contact.name)}</label></div>
+      <div class="fgrid two"><div class="field"><label for="tpGreet">Address as ({name})</label><input id="tpGreet" value="${esc(ct.greet)}" placeholder="${esc(contact.name)}"><p class="hint">e.g. “Sir” or “Maj Sahib”. Blank uses the contact name.</p></div>
+      <div class="field"><label for="tpSig">Signature for this person</label><input id="tpSig" value="${esc(ct.signature)}" placeholder="${esc(wa.signature||'(global signature)')}"></div></div>`:''}
+    <div class="tp-grid">
+      <div class="tp-edit">
+        <div class="row"><div class="field" style="flex:1"><label for="tpType">Message type</label><select id="tpType">${Object.entries(WA_TYPES).map(([k,l])=>`<option value="${k}">${esc(l)}</option>`).join('')}</select></div></div>
+        <div class="field"><label for="tpIntro">Opening</label><textarea id="tpIntro" rows="3"></textarea></div>
+        <div class="field"><label for="tpItem">Each task</label><textarea id="tpItem" rows="6"></textarea><p class="hint">Repeated for every task. Lines whose fields are empty are left out automatically.</p></div>
+        <div class="field"><label for="tpClose">Closing</label><textarea id="tpClose" rows="3"></textarea></div>
+        ${contact?'<p class="hint" id="tpInherit">Leave a box empty to use the global wording (shown faintly).</p>':`
+        <div class="field"><span class="lbl">Quick build: fields in each task</span><div class="checks" id="tpFields">${['ser','subj','comments','assignee','action','status','targetDate','remarks','cat'].map(f=>`<label><input type="checkbox" value="${f}" ${['subj','comments','targetDate','action','remarks'].includes(f)?'checked':''}> ${esc({ser:'Serial',subj:'Subject',comments:'Details',assignee:'Assignee',action:'Action',status:'Status',targetDate:'Target date',remarks:'Remarks',cat:'Category'}[f])}</label>`).join('')}</div><button class="btn" id="tpBuild" style="align-self:flex-start">Rebuild “Each task” from these fields</button></div>
+        <div class="fgrid two">
+          <div class="field"><label for="tpSigG">Signature ({signature})</label><input id="tpSigG" value="${esc(wa.signature)}" placeholder="e.g. Maj Hilmi, SO A&Q"></div>
+          <div class="field"><label for="tpNum">Task numbering</label><select id="tpNum">${[['1.','1. 2. 3.'],['1)','1) 2) 3)'],['•','• bullets'],['none','None']].map(([v,l])=>`<option value="${v}"${wa.numbering===v?' selected':''}>${l}</option>`).join('')}</select></div>
+          <div class="field"><label for="tpSep">Between tasks</label><select id="tpSep"><option value="blank">Blank line</option><option value="line"${wa.separator==='line'?' selected':''}>Divider line</option></select></div>
+          <div class="field"><label for="tpDate">Date format</label><select id="tpDate"><option value="long">15 Oct 2026</option><option value="short"${wa.dateFmt==='short'?' selected':''}>15/10/2026</option></select></div>
+        </div>
+        <div class="checks"><label><input type="checkbox" id="tpPrev" ${wa.previewSingle?'checked':''}> Always show the preview before opening WhatsApp for a single task</label></div>`}
+        <div class="field"><span class="lbl">Placeholders (tap to insert)</span><div class="ph-list">${WA_VARS.map(([k,l])=>`<button class="ph" data-ph="${k}" title="${esc(l)}">{${k}}</button>`).join('')}${customCols().map(c=>`<button class="ph" data-ph="${esc(c.id)}" title="${esc(c.label)}">{${esc(c.id)}}</button>`).join('')}</div></div>
+      </div>
+      <div class="tp-prev">
+        <div class="field"><label for="tpTask">Preview with task</label><select id="tpTask">${sample.map(t=>`<option value="${esc(t.id)}">${esc(serLabel(t)+' · '+(t.subj||'').slice(0,50))}</option>`).join('')||'<option value="">(no tasks yet: sample shown)</option>'}</select></div>
+        <pre class="code wa-prev" id="tpOut"></pre>
+      </div>
+    </div>`,
+    footer:`${contact?'<button class="btn ghost left" id="tpRestore">Restore global default</button>':''}<button class="btn ghost${contact?'':' left'}" id="tpReset">Reset this message type</button><button class="btn" data-close>Cancel</button><button class="btn primary" id="tpSave">Save templates</button>`});
+  const ti=d.querySelector('#tpIntro'),tt=d.querySelector('#tpItem'),tc=d.querySelector('#tpClose');
+  [ti,tt,tc].forEach(x=>x.addEventListener('focus',()=>lastTa=x));
+  const store=()=>{
+    if(contact){ct.tpl[type]={intro:ti.value.trim()?ti.value:'',item:tt.value.trim()?tt.value:'',closing:tc.value.trim()?tc.value:''};}
+    else{wa.templates[type]={intro:ti.value,item:tt.value,closing:tc.value};}
+  };
+  const load=()=>{
+    if(contact){const o=ct.tpl[type]||{};ti.value=o.intro||'';tt.value=o.item||'';tc.value=o.closing||'';ti.placeholder=g('intro');tt.placeholder=g('item');tc.placeholder=g('closing');}
+    else{ti.value=g('intro');tt.value=g('item');tc.value=g('closing');}
+  };
+  const readOpts=()=>{
+    if(contact){const m=d.querySelector('input[name="tpm"]:checked');ct.tplMode=m?m.value:'default';ct.greet=d.querySelector('#tpGreet').value.trim();ct.signature=d.querySelector('#tpSig').value.trim();return;}
+    wa.signature=d.querySelector('#tpSigG').value.trim();wa.numbering=d.querySelector('#tpNum').value;wa.separator=d.querySelector('#tpSep').value;wa.dateFmt=d.querySelector('#tpDate').value;wa.previewSingle=d.querySelector('#tpPrev').checked;
+  };
+  const preview=()=>{
+    store();readOpts();
+    const saved=settings.wa;settings.wa=wa;
+    const tmpC=contact?Object.assign({},contact,ct):null;
+    const t=taskById(d.querySelector('#tpTask').value)||normTask({subj:'Monthly office supplies order',comments:'Check stock\nPlace order',targetDate:addDaysYMD(2),priority:'IMP',assignedStatus:'Assigned',assignee:contact?contact.name:'Office Assistant',remarks:'Example'});
+    try{d.querySelector('#tpOut').textContent=buildMessage([t],type,tmpC,contact?contact.name:(assigneeName(t)||'Sir'));}finally{settings.wa=saved;}
+  };
+  load();preview();
+  d.querySelector('#tpType').onchange=e=>{store();type=e.target.value;load();preview();};
+  d.querySelector('.body').addEventListener('input',preview);
+  d.querySelector('.body').addEventListener('change',preview);
+  d.querySelector('.body').addEventListener('click',e=>{
+    const ph=e.target.closest('[data-ph]');
+    if(ph){e.preventDefault();const ta=lastTa||tt;const s=ta.selectionStart??ta.value.length;ta.value=ta.value.slice(0,s)+'{'+ph.dataset.ph+'}'+ta.value.slice(ta.selectionEnd??s);ta.focus();ta.selectionStart=ta.selectionEnd=s+ph.dataset.ph.length+2;preview();}
+    if(e.target.id==='tpBuild'){tt.value=itemFromFields([...d.querySelectorAll('#tpFields input:checked')].map(i=>i.value));preview();}
+  });
+  d.querySelector('#tpReset').onclick=()=>{if(contact){ct.tpl[type]={};}else{wa.templates[type]=defaultWaTemplates()[type];}load();preview();toast(`${WA_TYPES[type]} reset`+(contact?' to the global wording':' to the default'));};
+  const rs=d.querySelector('#tpRestore');if(rs)rs.onclick=()=>{ct.tplMode='default';ct.tpl={};ct.greet='';ct.signature='';d.querySelector('input[name="tpm"][value="default"]').checked=true;d.querySelector('#tpGreet').value='';d.querySelector('#tpSig').value='';load();preview();};
+  d.querySelector('#tpSave').onclick=()=>{
+    store();readOpts();
+    if(contact){
+      // keep only non-empty overrides
+      const clean={};Object.entries(ct.tpl).forEach(([k,o])=>{const x={};['intro','item','closing'].forEach(f=>{if(o&&o[f])x[f]=o[f];});if(Object.keys(x).length)clean[k]=x;});
+      Object.assign(contact,{tplMode:ct.tplMode,tpl:clean,greet:ct.greet,signature:ct.signature});
+    }else settings.wa=wa;
+    saveSettings();d._close();toast(contact?`Template saved for ${contact.name}`:'WhatsApp templates saved');
+  };
 }
 
 /* ================= Calendar reminders ================= */
 function ymd(ms){const d=new Date(ms);return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+function hm(t){return t.targetTime?t.targetTime.replace(':','')+'00':'';}
+function plusHour(t){const [h,m]=t.targetTime.split(':').map(Number);const x=h*60+m+60;return x>=1440?null:String(Math.floor(x/60)).padStart(2,'0')+String(x%60).padStart(2,'0')+'00';}
 function gcalLink(t){
   const ms=dateMs(t.targetDate);if(ms==null)return '';
   const details=[t.comments,t.assignee?'Assignee: '+t.assignee:'',t.remarks?'Remarks: '+t.remarks:''].filter(Boolean).join('\n');
-  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Task due: '+(t.subj||''))+'&dates='+ymd(ms)+'/'+ymd(ms+86400000)+'&details='+encodeURIComponent(details);
+  let dates=ymd(ms)+'/'+ymd(ms+86400000);
+  if(t.targetTime){const end=plusHour(t);dates=ymd(ms)+'T'+hm(t)+'/'+(end?ymd(ms)+'T'+end:ymd(ms)+'T235900');}
+  let tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';}catch(e){}
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Task due: '+(t.subj||''))+'&dates='+dates+(t.targetTime&&tz?'&ctz='+encodeURIComponent(tz):'')+'&details='+encodeURIComponent(details);
 }
 function icsText(list){
   const e=s=>String(s||'').replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');
   const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
   let out='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Master Task Suite//EN\r\nCALSCALE:GREGORIAN\r\n';
   list.forEach(t=>{const ms=dateMs(t.targetDate);if(ms==null)return;
-    out+=`BEGIN:VEVENT\r\nUID:${t.id}@master-task-suite\r\nDTSTAMP:${stamp}\r\nDTSTART;VALUE=DATE:${ymd(ms)}\r\nDTEND;VALUE=DATE:${ymd(ms+86400000)}\r\nSUMMARY:${e('Task due: '+t.subj)}\r\nDESCRIPTION:${e([t.comments,t.assignee?'Assignee: '+t.assignee:'',t.remarks].filter(Boolean).join('\n'))}\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${e(t.subj)}\r\nTRIGGER:-PT15H\r\nEND:VALARM\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${e(t.subj)}\r\nTRIGGER:PT9H\r\nEND:VALARM\r\nEND:VEVENT\r\n`;});
+    const when=t.targetTime?`DTSTART:${ymd(ms)}T${hm(t)}\r\nDTEND:${ymd(ms)}T${plusHour(t)||'235900'}\r\n`:`DTSTART;VALUE=DATE:${ymd(ms)}\r\nDTEND;VALUE=DATE:${ymd(ms+86400000)}\r\n`;
+    const alarms=t.targetTime?`BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${e(t.subj)}\r\nTRIGGER:-PT1H\r\nEND:VALARM\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${e(t.subj)}\r\nTRIGGER:-P1D\r\nEND:VALARM\r\n`:`BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${e(t.subj)}\r\nTRIGGER:-PT15H\r\nEND:VALARM\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${e(t.subj)}\r\nTRIGGER:PT9H\r\nEND:VALARM\r\n`;
+    out+=`BEGIN:VEVENT\r\nUID:${t.id}@master-task-suite\r\nDTSTAMP:${stamp}\r\n${when}SUMMARY:${e('Task due: '+t.subj)}\r\nDESCRIPTION:${e([t.comments,t.assignee?'Assignee: '+t.assignee:'',t.remarks].filter(Boolean).join('\n'))}\r\n${alarms}END:VEVENT\r\n`;});
   return out+'END:VCALENDAR\r\n';
 }
 function openCalendarDlg(){
-  const list=tasks.filter(t=>!t.deleted&&!isDone(t)&&t.targetDate).sort((a,b)=>dateMs(a.targetDate)-dateMs(b.targetDate));
-  const canIcs=!downloadsNs; // .ics is only downloadable in the standalone file
-  const d=openDlg({title:'Calendar reminders',body:`<p class="hint">Put target dates in your phone calendar so it alerts you before a task falls overdue. Tap a task to add it to Google Calendar (works on iPhone and Android).</p>
-    ${canIcs?`<div class="note"><b>iPhone Calendar / Outlook:</b> download all ${list.length} dated tasks as one calendar file. Each event alerts at 9 AM the day before and on the due date.</div><div><button class="btn primary" id="icsBtn">${icon('download')}Download calendar file (.ics)</button></div>`:''}
-    <div class="list">${list.map(t=>`<div class="li"><div style="flex:1;min-width:0"><b>${esc(t.subj)}</b><div class="hint">${esc(fmtDate(t.targetDate))}${isOverdue(t)?' · overdue':''}</div></div><a class="btn" href="${esc(gcalLink(t))}" target="_blank" rel="noopener">${icon('cal')}Add</a></div>`).join('')||'<p class="hint">No active tasks have a target date.</p>'}</div>`,footer:`<button class="btn" data-close>Close</button>`});
+  const list=tasks.filter(t=>inStage(t,'active')&&t.targetDate).sort((a,b)=>dueKey(a)-dueKey(b));
+  const canIcs=!downloadsNs; // .ics is only downloadable outside the Claude viewer
+  const d=openDlg({title:'Calendar reminders',body:`<p class="hint">Put target dates of active tasks in your phone calendar so it alerts you before a task falls overdue. Tap a task to add it to Google Calendar (works on iPhone and Android). Snoozed, completed and archived tasks are left out.</p>
+    ${canIcs?`<div class="note"><b>iPhone Calendar / Outlook:</b> download all ${list.length} dated tasks as one calendar file. All-day tasks alert at 9 AM the day before and on the due date; timed tasks alert a day and an hour before.</div><div><button class="btn primary" id="icsBtn">${icon('download')}Download calendar file (.ics)</button></div>`:''}
+    <div class="list">${list.map(t=>`<div class="li"><div style="flex:1;min-width:0"><b>${esc(t.subj)}</b><div class="hint">${esc(fmtDue(t))}${isOverdue(t)?' · overdue':''}</div></div><a class="btn" href="${esc(gcalLink(t))}" target="_blank" rel="noopener">${icon('cal')}Add</a></div>`).join('')||'<p class="hint">No active tasks have a target date.</p>'}</div>`,footer:`<button class="btn" data-close>Close</button>`});
   const b=d.querySelector('#icsBtn');if(b)b.onclick=()=>saveFile('Task-reminders.ics',new Blob([icsText(list)],{type:'text/calendar'}));
 }
 
-/* ================= Files: save & load ================= */
-async function saveFile(name,blob){
-  if(downloadsNs){
-    try{await downloadsNs.save({filename:name,data:blob});toast('File ready: '+name);}
-    catch(e){if(e&&e.code==='declined')return;if(e&&e.code==='rate_limited'){toast('A save prompt is already open');return;}toast('This view cannot save files ('+(e&&e.code||'error')+').');}
-    return;
-  }
-  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);toast('Downloaded '+name);
-}
-const scriptCache={};
-function loadScript(src){
-  if(!scriptCache[src])scriptCache[src]=new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>{delete scriptCache[src];rej(new Error('load'));};document.head.appendChild(s);});
-  return scriptCache[src];
-}
-
 /* ================= Word export ================= */
-function exportTasks(){
-  const sel=selectedVisible();
-  return sel;
+const SCOPES={selected:'Selected tasks',view:'Current tab and filters',register:'Whole register (all tabs except Trash)'};
+function exportList(scope){
+  if(scope==='selected')return selectedVisible();
+  if(scope==='register')return tasks.filter(t=>!t.deleted);
+  return visibleTasks();
 }
+function defaultScope(){return selectedVisible().length?'selected':'view';}
 function exportFieldDefs(){
   const cfg=settings.exportConfig;
   const all=Object.assign({},FIELD_DEFS);customCols().forEach(c=>all[c.id]={label:c.label});
   const f=(cfg.fields||[]).filter(x=>all[x]);
-  const W={ser:5,cat:9,subj:22,comments:40,assignee:12,action:9,status:10,targetDate:11,remarks:15};
+  const W={ser:5,cat:9,subj:22,comments:40,assignee:12,action:9,status:10,targetDate:11,remarks:15,created:12};
   const raw=f.map(x=>W[x]||12);const sum=raw.reduce((a,b)=>a+b,0)||1;
   return f.map((x,i)=>({id:x,label:all[x].label,pct:raw[i]/sum}));
 }
-function groupByCat(list){
-  const out=[];const map={};
-  const ord=settings.categories;
-  list.slice().sort((a,b)=>((ord.indexOf(a.cat)+1)||99)-((ord.indexOf(b.cat)+1)||99)||serNum(a)-serNum(b)).forEach(t=>{const c=t.cat||'Review';if(!map[c]){map[c]=[];out.push([c,map[c]]);}map[c].push(t);});
+// Group rows for the document: by category, and by lifecycle stage first when the list mixes stages
+function groupForExport(list){
+  const out=[];const ord=settings.categories;
+  const stages=STAGES.filter(s=>list.some(t=>stageOf(t)===s));
+  const mixed=stages.length>1;
+  stages.forEach(s=>{
+    const map={};
+    list.filter(t=>stageOf(t)===s).sort((a,b)=>((ord.indexOf(a.cat)+1)||99)-((ord.indexOf(b.cat)+1)||99)||serNum(a)-serNum(b)).forEach(t=>{const c=t.cat||'Review';if(!map[c]){map[c]=[];out.push([mixed?STAGE_LABEL[s]+' · '+c:c,map[c]]);}map[c].push(t);});
+  });
   return out;
 }
 function cellLines(t,f){
   if(f==='comments')return (t.comments||'').split('\n').map(s=>s.trim()).filter(Boolean).map(s=>s.startsWith('•')||s.startsWith('-')?'• '+s.replace(/^[•\-]\s*/,''):'• '+s);
-  if(f==='targetDate')return [t.targetDate?fmtDate(t.targetDate):''];
+  if(f==='ser')return [serLabel(t)];
+  if(f==='targetDate')return [fmtDue(t)];
   if(f==='assignee')return [t.assignedStatus==='Assigned'?(t.assignee||''):'—'];
   if(f==='action')return [t.priority||''];
+  if(f==='status')return [statusLabel(t)];
+  if(f==='created')return [fmtStamp(t.createdAt)];
   return [String(t[f]||'')];
 }
 function previewHTML(list){
   const cfg=settings.exportConfig,F=exportFieldDefs();const font=cfg.font+', Arial, sans-serif';
   let rows='';
-  groupByCat(list).forEach(([cat,ts])=>{
+  groupForExport(list).forEach(([cat,ts])=>{
     rows+=`<tr><td colspan="${F.length}" style="background:${esc(cfg.bandBg)};font-weight:bold;font-size:11pt">${esc(cat)}</td></tr>`;
     ts.forEach(t=>{rows+='<tr>'+F.map(f=>`<td style="${['ser','action','status'].includes(f.id)?'text-align:center;':''}${['subj','action'].includes(f.id)?'font-weight:bold;':''}">${cellLines(t,f.id).map(esc).join('<br>')}</td>`).join('')+'</tr>';});
   });
@@ -1140,7 +1810,7 @@ async function buildDocx(list){
   const para=(text,o={})=>new D.Paragraph({alignment:o.align||D.AlignmentType.LEFT,spacing,children:[new D.TextRun({text,font,size:o.size||size,bold:!!o.bold,italics:!!o.italics,underline:o.underline?{}:undefined,allCaps:!!o.caps})]});
   const cell=(paras,w,o={})=>new D.TableCell({width:{size:w,type:D.WidthType.DXA},borders,margins:{top:60,bottom:60,left:90,right:90},shading:o.fill?{type:D.ShadingType.CLEAR,color:'auto',fill:hex(o.fill)}:undefined,columnSpan:o.span,children:paras});
   const rows=[new D.TableRow({tableHeader:true,cantSplit:true,children:F.map((f,i)=>cell([para(f.label,{bold:true,align:center(f.id)?D.AlignmentType.CENTER:D.AlignmentType.LEFT})],widths[i],{fill:cfg.headerBg}))})];
-  groupByCat(list).forEach(([cat,ts])=>{
+  groupForExport(list).forEach(([cat,ts])=>{
     rows.push(new D.TableRow({cantSplit:true,children:[cell([para(cat,{bold:true,size:22})],contentW,{fill:cfg.bandBg,span:F.length})]}));
     ts.forEach(t=>rows.push(new D.TableRow({cantSplit:true,children:F.map((f,i)=>{const ls=cellLines(t,f.id);return cell((ls.length?ls:['']).map(s=>para(s,{bold:['subj','action'].includes(f.id),align:center(f.id)?D.AlignmentType.CENTER:D.AlignmentType.LEFT})),widths[i]);})})));
   });
@@ -1153,23 +1823,41 @@ async function buildDocx(list){
   const doc=new D.Document({styles:{default:{document:{run:{font,size}}}},sections:[{properties:{page:{size:{width:pageW,height:pageH,orientation:landscape?D.PageOrientation.LANDSCAPE:D.PageOrientation.PORTRAIT},margin:{top:margin,bottom:margin,left:margin,right:margin}}},children}]});
   return D.Packer.toBlob(doc);
 }
-async function exportWord(){
-  const list=exportTasks();
-  if(!list.length){toast('Tick the tasks to include, then export');return;}
-  toast('Preparing Word file…');
+async function exportWord(scope){
+  scope=scope||defaultScope();
+  const list=exportList(scope);
+  if(!list.length){toast('Nothing to export in this view');return;}
+  toast(`Preparing Word file: ${plural(list.length,'task')} (${SCOPES[scope].toLowerCase()})…`);
   try{
     const blob=await buildDocx(list);
-    const name=(settings.exportConfig.docTitle||'Task update').replace(/&/g,'').replace(/[^A-Za-z0-9 _-]/g,'').replace(/-/g,' ').trim().replace(/\s+/g,'_')+'_'+new Date().toISOString().slice(0,10)+'.docx';
+    const name=(settings.exportConfig.docTitle||'Task update').replace(/&/g,'').replace(/[^A-Za-z0-9 _-]/g,'').replace(/-/g,' ').trim().replace(/\s+/g,'_')+'_'+localYMD(new Date())+'.docx';
     await saveFile(name,blob);
   }catch(e){console.error(e);toast('Could not build the Word file. Check your connection and try again.');}
 }
-function openPreview(){
-  const list=exportTasks();
-  if(!list.length){toast('Tick the tasks to include, then preview');return;}
-  const d=openDlg({title:'Word preview',wide:true,body:`<p class="hint">${list.length} selected task${list.length>1?'s':''}, grouped by category. Change layout under Word export format.</p><div class="paperwrap">${previewHTML(list)}</div>`,footer:`<button class="btn left" id="pvFmt">${icon('gear')}Format</button><button class="btn" data-close>Close</button><button class="btn primary" id="pvDl">${icon('download')}Download .docx</button>`});
-  d.querySelector('#pvDl').onclick=()=>{d._close();exportWord();};
+function openPreview(scope){
+  scope=scope||defaultScope();
+  const d=openDlg({title:'Word preview',wide:true,body:`<div class="row"><div class="field" style="flex:1;min-width:220px"><label for="pvScope">Include</label><select id="pvScope">${Object.entries(SCOPES).map(([k,l])=>`<option value="${k}"${k===scope?' selected':''}>${esc(l)} (${exportList(k).length})</option>`).join('')}</select></div></div><p class="hint" id="pvHint"></p><div class="paperwrap" id="pvPaper"></div>`,footer:`<button class="btn left" id="pvFmt">${icon('gear')}Format</button><button class="btn" data-close>Close</button><button class="btn primary" id="pvDl">${icon('download')}Download .docx</button>`});
+  const draw=()=>{const s=d.querySelector('#pvScope').value,l=exportList(s);d.querySelector('#pvHint').textContent=l.length?`${plural(l.length,'task')}, grouped by category${STAGES.filter(x=>l.some(t=>stageOf(t)===x)).length>1?' within each tab (Active, Completed, Snoozed, Archived)':''}.`:'Nothing to show for this choice.';d.querySelector('#pvPaper').innerHTML=l.length?previewHTML(l):'';};
+  draw();d.querySelector('#pvScope').onchange=draw;
+  d.querySelector('#pvDl').onclick=()=>{const s=d.querySelector('#pvScope').value;d._close();exportWord(s);};
   d.querySelector('#pvFmt').onclick=()=>{d._close();openExportFmtDlg(true);};
 }
+/* ================= Files: save & load ================= */
+async function saveFile(name,blob){
+  if(downloadsNs){
+    try{await downloadsNs.save({filename:name,data:blob});toast('File ready: '+name);}
+    catch(e){if(e&&e.code==='declined')return;if(e&&e.code==='rate_limited'){toast('A save prompt is already open');return;}toast('This view cannot save files ('+(e&&e.code||'error')+').');}
+    return;
+  }
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);toast('Downloaded '+name);
+}
+const scriptCache={};
+function loadScript(src){
+  if(!scriptCache[src])scriptCache[src]=new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>{delete scriptCache[src];rej(new Error('load'));};document.head.appendChild(s);});
+  return scriptCache[src];
+}
+
+/* ================= Export format + Word import parsing ================= */
 function openExportFmtDlg(backToPreview){
   const cfg=settings.exportConfig;
   const all=Object.assign({},FIELD_DEFS);customCols().forEach(c=>all[c.id]={label:c.label});
@@ -1208,6 +1896,7 @@ function blockLines(el){
 }
 function headerKey(txt){
   const s=txt.toLowerCase().replace(/[^a-z/ ]/g,' ').trim();
+  if(/^(entered|created|date of entry)/.test(s))return 'created';
   if(/^(ser|s ?no|serial|sr|no)\b/.test(s))return 'ser';
   if(/gist|comment|detail|description|brief/.test(s))return 'comments';
   if(/^(subj|subject|task|title)/.test(s))return 'subj';
@@ -1255,7 +1944,8 @@ function parseWordHTML(html){
         else if(k==='action'){const p=PRIORITIES.find(p=>p.toLowerCase()===v.toLowerCase().replace(/[^a-z]/g,''));if(p)t.priority=p;else if(v){const st=STATUSES.find(s=>s.toLowerCase()===v.toLowerCase());if(st)t.status=st;else extra.push(v);}}
         else if(k==='status'){const st=STATUSES.find(s=>s.toLowerCase()===v.toLowerCase());if(st)t.status=st;else if(/done|complete/i.test(v))t.status='Completed';}
         else if(k==='assignee'){if(v&&!/^[-—]$|unassigned/i.test(v)){t.assignee=v;t.assignedStatus='Assigned';}}
-        else if(k==='targetDate')t.targetDate=parseDateLoose(v);
+        else if(k==='targetDate'){t.targetDate=parseDateLoose(v);const tm=/(?:,|\s)\s*([01]?\d|2[0-3]):([0-5]\d)\b/.exec(v);if(t.targetDate&&tm)t.targetTime=tm[1].padStart(2,'0')+':'+tm[2];}
+        else if(k==='created'){/* entry date comes from the import itself */}
         else if(k==='cat'){if(v){t.cat=v;newCats.add(v);}}
         else t[k]=v;
       });
@@ -1281,31 +1971,6 @@ async function handleWordFile(file){
     openImportReview(res,file.name);
   }catch(e){console.error(e);toast('Could not read that file. Try saving it again as .docx.');}
 }
-function openImportReview(res,fname){
-  const pick=new Set(res.tasks.map((_,i)=>i));
-  const existing=new Set(tasks.filter(t=>!t.deleted).map(t=>(t.subj||'').toLowerCase().trim()));
-  const dupes=new Set(res.tasks.map((t,i)=>existing.has((t.subj||'').toLowerCase().trim())?i:-1).filter(i=>i>=0));
-  dupes.forEach(i=>pick.delete(i));
-  const d=openDlg({title:'Import from Word',wide:true,body:`
-    <p class="hint">Found <b>${res.tasks.length}</b> task${res.tasks.length>1?'s':''} in <b>${esc(fname)}</b>${res.cats.length?` across ${res.cats.length} categor${res.cats.length>1?'ies':'y'}`:''}. ${dupes.size?`${dupes.size} look like tasks you already have and are unticked.`:''} Untick anything you don't want.</p>
-    <div class="row"><div class="checks"><label><input type="checkbox" id="imRenum" checked> Renumber after import</label><label><input type="checkbox" id="imSel" checked> Tick imported tasks for export</label></div></div>
-    <div class="tablewrap" style="overflow-x:auto"><table class="imp-table"><thead><tr><th></th><th>Cat</th><th>Subj</th><th>Gist</th><th>Action</th><th>Remarks</th></tr></thead><tbody>
-    ${res.tasks.map((t,i)=>`<tr><td><input type="checkbox" data-i="${i}" ${pick.has(i)?'checked':''}></td><td>${esc(t.cat)}</td><td><b>${esc(t.subj)}</b>${dupes.has(i)?' <span class="flag soon">exists</span>':''}</td><td style="white-space:pre-line;max-width:380px">${esc(t.comments)}</td><td>${esc(t.priority)}</td><td>${esc(t.remarks)}</td></tr>`).join('')}
-    </tbody></table></div>`,footer:`<button class="btn" data-close>Cancel</button><button class="btn primary" id="imGo">${icon('upload')}Import selected</button>`});
-  d.querySelector('tbody').addEventListener('change',e=>{const i=+e.target.dataset.i;e.target.checked?pick.add(i):pick.delete(i);d.querySelector('#imGo').lastChild.textContent=`Import ${pick.size}`;});
-  d.querySelector('#imGo').onclick=()=>{
-    res.cats.forEach(c=>{if(!settings.categories.includes(c))settings.categories.push(c);});
-    let s=+nextSer();const added=[];
-    res.tasks.forEach((t,i)=>{if(!pick.has(i))return;const nt=normTask(Object.assign({},t,{ser:String(s++)}));tasks.push(nt);added.push(nt);});
-    if(d.querySelector('#imSel').checked)added.forEach(t=>ui.selected.add(t.id));
-    added.forEach(saveTask);saveSettings();
-    if(d.querySelector('#imRenum').checked)renumber(true);
-    d._close();renderAll();toast(`Imported ${added.length} task${added.length===1?'':'s'}`);
-  };
-}
-
-/* ================= Backup ================= */
-function backupBlob(){return new Blob([JSON.stringify({app:'hilmi-task-suite',version:9,exportedAt:new Date().toISOString(),settings,tasks},null,1)],{type:'application/json'});}
 async function restoreFile(file){
   if(!file)return;
   let data;try{data=JSON.parse(await file.text());}catch(e){toast('That file is not a valid backup');return;}
@@ -1333,34 +1998,178 @@ function openSyncDlg(){
     :mode==='cloud'
     ?`<div class="note"><b>Cloud sync is on.</b> Your register is saved to your Claude account. Open this same page link on your phone, iPad or laptop while signed in and you see the same tasks; edits appear on other open devices within seconds.</div>
       <p class="hint">Data is private to your account. Other people you share the link with cannot see your tasks.</p>`
-    :`<div class="note"><b>Saved on this device only.</b> ${cloud.note==='Sign in to sync'?'Sign in to Claude to turn on cloud sync.':'To keep phone and laptop in step, use the cloud copy of this page (open it from your Claude artifacts while signed in). Move tasks between copies with a backup file.'}</div>`;
+    :`<div class="note"><b>Saved on this device only.</b> ${cloud.note==='Sign in to sync'?'Sign in to Claude to turn on cloud sync.':'To keep phone and laptop in step, open your hosted web address and sign in, or move tasks between devices with a backup file.'}</div>`;
   const d=openDlg({title:'Sync & backup',body:body+`
+    <div class="list" id="bkBlock"><p class="hint">Loading backup options…</p></div>
     <div class="list">
-      <div class="li"><div style="flex:1"><b>Download backup</b><div class="hint">All ${live} tasks, categories, columns and contacts in one .json file.</div></div><button class="btn" id="bkDown">${icon('download')}Download</button></div>
-      <div class="li"><div style="flex:1"><b>Restore from backup</b><div class="hint">Load a .json backup from any copy of this app (merge or replace).</div></div><button class="btn" id="bkUp">${icon('upload')}Restore</button></div>
       <div class="li"><div style="flex:1"><b>Empty Trash</b><div class="hint">${tasks.filter(t=>t.deleted).length} tasks in Trash.</div></div><button class="btn danger" id="bkTrash">${icon('trash')}Empty</button></div>
     </div>
     <p class="hint">Tip for iPhone: open the page in Safari, tap Share → Add to Home Screen to launch it like an app.</p>`,footer:`<button class="btn" data-close>Close</button>`});
   const fo=d.querySelector('#fbOut');if(fo)fo.onclick=async()=>{d._close();if(await confirmBox('Sign out on this device? Your tasks stay safe in the cloud.','Sign out')){try{localStorage.removeItem('hilmi_cache_v9');}catch(e){}cloud.auth.signOut();}};
   const fu=d.querySelector('#fbUp');if(fu)fu.onclick=()=>{d._close();uploadLocalTasks();};
   const fi=d.querySelector('#fbIn');if(fi)fi.onclick=()=>{d._close();openSignIn();};
-  d.querySelector('#bkDown').onclick=()=>saveFile('Task-Suite-backup-'+new Date().toISOString().slice(0,10)+'.json',backupBlob());
-  d.querySelector('#bkUp').onclick=()=>{d._close();$('#fileBackup').click();};
+  renderBackupBlock(d);
   d.querySelector('#bkTrash').onclick=async()=>{const n=tasks.filter(t=>t.deleted);if(!n.length)return;d._close();if(await confirmBox(`Permanently delete ${n.length} task${n.length>1?'s':''} in Trash?`,'Empty Trash',true)){n.forEach(t=>removeTaskStore(t.id));tasks=tasks.filter(t=>!t.deleted);renderAll();toast('Trash emptied');}};
 }
 
-/* ================= Misc actions ================= */
-function renumber(silent){
-  let n=1;tasks.filter(t=>!t.deleted).sort((a,b)=>{const o=settings.categories;return((o.indexOf(a.cat)+1)||99)-((o.indexOf(b.cat)+1)||99)||serNum(a)-serNum(b);}).forEach(t=>{const s=String(n++);if(t.ser!==s){t.ser=s;saveTask(t);}});
-  if(!silent){renderAll();toast('Serials renumbered by category order');}
+/* ================= Backup folder (File System Access API) =================
+   Chrome and Edge on a computer can write straight into a folder you choose.
+   The folder is remembered on this device only (browsers never reveal the full path, only its name).
+   Other browsers fall back to the normal download / share sheet. */
+const FS_DIR=typeof window.showDirectoryPicker==='function';
+const FS_SAVE=typeof window.showSaveFilePicker==='function';
+const FS_OPEN=typeof window.showOpenFilePicker==='function';
+const JSON_TYPES=[{description:'Task Suite backup',accept:{'application/json':['.json']}}];
+let backupDir=null,autoPermAsked=false;
+function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('mts-fs',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function kvGet(k){try{const db=await idbOpen();return await new Promise(res=>{const q=db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null);});}catch(e){return null;}}
+async function kvSet(k,v){try{const db=await idbOpen();await new Promise(res=>{const tx=db.transaction('kv','readwrite');const s=tx.objectStore('kv');v==null?s.delete(k):s.put(v,k);tx.oncomplete=res;tx.onerror=res;});}catch(e){}}
+async function loadBackupDir(){if(!FS_DIR)return null;if(!backupDir)backupDir=await kvGet('backupDir');return backupDir;}
+async function dirPermission(h,ask){
+  try{const o={mode:'readwrite'};let s=await h.queryPermission(o);if(s==='granted')return true;if(ask){s=await h.requestPermission(o);return s==='granted';}}catch(e){}
+  return false;
+}
+async function chooseBackupDir(){
+  try{
+    const opts={id:'mts-backups',mode:'readwrite'};if(backupDir)opts.startIn=backupDir;else opts.startIn='documents';
+    const h=await window.showDirectoryPicker(opts);backupDir=h;await kvSet('backupDir',h);toast(`Backups will be saved to “${h.name}”`);return h;
+  }catch(e){if(e&&e.name!=='AbortError')toast('Could not use that folder: '+(e.message||e.name));return null;}
+}
+async function forgetBackupDir(){backupDir=null;await kvSet('backupDir',null);lsSet('hilmi_autoFolderBackup',false);toast('Backup folder forgotten on this device');}
+function backupName(prefix){const d=new Date();return (prefix||'Task-Suite-backup-')+localYMD(d)+'_'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'.json';}
+async function writeToDir(h,name,blob){const fh=await h.getFileHandle(name,{create:true});const w=await fh.createWritable();await w.write(blob);await w.close();}
+async function saveBackupToFolder(){
+  if(!await loadBackupDir()&&!await chooseBackupDir())return false;
+  if(!await dirPermission(backupDir,true)){toast('The browser was not given permission to use that folder');return false;}
+  try{const n=backupName();await writeToDir(backupDir,n,backupBlob());lsSet('hilmi_lastFolderBackup',Date.now());toast(`Backup saved in “${backupDir.name}” as ${n}`);return true;}
+  catch(e){toast('Could not save to the folder: '+(e.message||e.name));return false;}
+}
+async function saveBackupAs(){
+  if(!FS_SAVE){return saveFile(backupName(),backupBlob());}
+  try{
+    const opts={id:'mts-backups',suggestedName:backupName(),types:JSON_TYPES};if(await loadBackupDir())opts.startIn=backupDir;else opts.startIn='documents';
+    const h=await window.showSaveFilePicker(opts);const w=await h.createWritable();await w.write(backupBlob());await w.close();toast('Backup saved as '+h.name);
+  }catch(e){if(e&&e.name!=='AbortError')toast('Could not save: '+(e.message||e.name));}
+}
+async function restoreFromPicker(){
+  if(!FS_OPEN){$('#fileBackup').click();return;}
+  try{
+    const opts={id:'mts-backups',types:JSON_TYPES};if(await loadBackupDir())opts.startIn=backupDir;
+    const [h]=await window.showOpenFilePicker(opts);restoreFile(await h.getFile());
+  }catch(e){if(e&&e.name!=='AbortError')$('#fileBackup').click();}
+}
+async function listFolderBackups(){
+  if(!backupDir||!await dirPermission(backupDir,false))return null;
+  const out=[];
+  try{for await(const [name,h] of backupDir.entries()){if(h.kind==='file'&&/\.json$/i.test(name)){const f=await h.getFile();out.push({name,file:f,mod:f.lastModified,size:f.size});}}}catch(e){return null;}
+  return out.sort((a,b)=>b.mod-a.mod);
+}
+// Optional: one automatic backup per day into the chosen folder while the app is open
+async function autoFolderBackup(){
+  if(!FS_DIR||!lsGet('hilmi_autoFolderBackup'))return;
+  if(!await loadBackupDir())return;
+  const today=localYMD(new Date());
+  if(lsGet('hilmi_lastAutoBackupDay')===today)return;
+  if(mode==='cloud'&&!cloud.loaded)return;
+  if(!tasks.some(t=>!t.deleted))return;
+  if(!await dirPermission(backupDir,false)){
+    if(!autoPermAsked){autoPermAsked=true;toast(`Daily backup to “${backupDir.name}” needs your permission again`,[{label:'Allow',fn:async()=>{if(await dirPermission(backupDir,true))autoFolderBackup();}}]);}
+    return;
+  }
+  try{await writeToDir(backupDir,'Task-Suite-auto-'+today+'.json',backupBlob());lsSet('hilmi_lastAutoBackupDay',today);}catch(e){}
+}
+function fmtSize(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';}
+// Fills the backup section of the Sync & backup dialog
+async function renderBackupBlock(d){
+  const box=d.querySelector('#bkBlock');if(!box)return;
+  const live=tasks.filter(t=>!t.deleted).length;
+  await loadBackupDir();
+  const perm=backupDir?await dirPermission(backupDir,false):false;
+  const files=perm?await listFolderBackups():null;
+  const auto=!!lsGet('hilmi_autoFolderBackup');
+  const lastAuto=lsGet('hilmi_lastAutoBackupDay');
+  box.innerHTML=FS_DIR?`
+    <div class="li bk-folder"><div style="flex:1;min-width:0"><b>Backup folder on this computer</b>
+      <div class="hint">${backupDir?`${icon('folder')} <b>${esc(backupDir.name)}</b>${perm?'':' · permission needed again'}`:'Not chosen yet. Backups go to Downloads until you choose a folder.'}</div>
+      <div class="hint">Browsers show only the folder's name, not its full path. The choice is remembered on this device only.</div></div>
+      <div class="grp-btns"><button class="btn" id="bkPick">${icon('folder')}${backupDir?'Change':'Choose folder'}</button>${backupDir?`<button class="btn ghost" id="bkForget">Forget</button>`:''}</div></div>
+    <div class="li"><div style="flex:1;min-width:0"><b>Save a backup</b><div class="hint">All ${live} tasks, categories, columns, contacts and templates in one .json file.</div></div>
+      <div class="grp-btns">${backupDir?`<button class="btn primary" id="bkFolder">${icon('download')}Save to folder</button>`:''}<button class="btn${backupDir?'':' primary'}" id="bkAs">${icon('download')}Save as…</button></div></div>
+    <div class="li"><div style="flex:1;min-width:0"><b>Restore from a backup</b><div class="hint">Pick a .json backup anywhere on this computer${backupDir?' (opens in your backup folder)':''}. You can merge or replace.</div></div>
+      <div class="grp-btns"><button class="btn" id="bkUp">${icon('upload')}Choose file…</button></div></div>
+    ${backupDir?(perm?(files&&files.length?`<div class="bk-files"><span class="lbl">Backups in “${esc(backupDir.name)}”</span>${files.slice(0,6).map((f,i)=>`<div class="li"><div style="flex:1;min-width:0"><span class="num">${esc(f.name)}</span><div class="hint">${esc(fmtStamp(f.mod))} · ${fmtSize(f.size)}</div></div><button class="btn" data-bkfile="${i}">${icon('undo')}Restore</button></div>`).join('')}${files.length>6?`<p class="hint">${files.length-6} older backups not shown. Use “Choose file…” to pick any of them.</p>`:''}</div>`:'<p class="hint">No backups in this folder yet.</p>')
+      :`<div class="li"><div style="flex:1"><span class="hint">Allow access again to list and save backups in “${esc(backupDir.name)}”.</span></div><button class="btn" id="bkAllow">Allow access</button></div>`):''}
+    ${backupDir?`<div class="checks"><label><input type="checkbox" id="bkAuto" ${auto?'checked':''}> Save a backup to this folder automatically once a day when the app is open</label></div>${auto&&lastAuto?`<p class="hint">Last automatic backup: ${esc(fmtDate(lastAuto))}</p>`:''}`:''}`
+  :`
+    <div class="li"><div style="flex:1;min-width:0"><b>Save a backup</b><div class="hint">All ${live} tasks, categories, columns, contacts and templates in one .json file.</div></div><button class="btn primary" id="bkAs">${icon('download')}Save backup</button></div>
+    <div class="li"><div style="flex:1;min-width:0"><b>Restore from a backup</b><div class="hint">Pick a .json backup file (merge or replace).</div></div><button class="btn" id="bkUp">${icon('upload')}Choose file…</button></div>
+    <p class="hint">${/iPhone|iPad|iPod/.test(navigator.userAgent)?'On iPhone, Save backup opens the share sheet: choose <b>Save to Files</b> and pick any folder, such as iCloud Drive.':'This browser saves backups to its download folder. To pick a fixed backup folder, open the app in <b>Chrome</b> or <b>Edge</b> on a computer. You can also change the browser’s download location in its settings, or turn on “Ask where to save each file”.'}</p>`;
+  const on=(id,fn)=>{const el=box.querySelector('#'+id);if(el)el.onclick=fn;};
+  on('bkPick',async()=>{if(await chooseBackupDir())renderBackupBlock(d);});
+  on('bkForget',async()=>{await forgetBackupDir();renderBackupBlock(d);});
+  on('bkFolder',async()=>{if(await saveBackupToFolder())renderBackupBlock(d);});
+  on('bkAs',async()=>{await saveBackupAs();renderBackupBlock(d);});
+  on('bkUp',()=>{d._close();restoreFromPicker();});
+  on('bkAllow',async()=>{if(await dirPermission(backupDir,true))renderBackupBlock(d);else toast('Permission was not given');});
+  const au=box.querySelector('#bkAuto');if(au)au.onchange=async()=>{lsSet('hilmi_autoFolderBackup',au.checked);if(au.checked){if(await dirPermission(backupDir,true)){lsSet('hilmi_lastAutoBackupDay',null);await autoFolderBackup();toast('Daily backup is on. Today’s backup has been saved.');}else{au.checked=false;lsSet('hilmi_autoFolderBackup',false);toast('Permission was not given');}}renderBackupBlock(d);};
+  box.querySelectorAll('[data-bkfile]').forEach(b=>b.onclick=()=>{const f=files[+b.dataset.bkfile];d._close();restoreFile(f.file);});
+}
+
+/* ================= Word import review ================= */
+function openImportReview(res,fname){
+  const pick=new Set(res.tasks.map((_,i)=>i));
+  const existing=new Map();tasks.filter(t=>!t.deleted).forEach(t=>existing.set((t.subj||'').toLowerCase().trim(),stageOf(t)));
+  const dupes=new Set(res.tasks.map((t,i)=>existing.has((t.subj||'').toLowerCase().trim())?i:-1).filter(i=>i>=0));
+  dupes.forEach(i=>pick.delete(i));
+  const d=openDlg({title:'Import from Word',wide:true,body:`
+    <p class="hint">Found <b>${res.tasks.length}</b> task${res.tasks.length>1?'s':''} in <b>${esc(fname)}</b>${res.cats.length?` across ${res.cats.length} categor${res.cats.length>1?'ies':'y'}`:''}. ${dupes.size?`${dupes.size} look like tasks you already have and are unticked.`:''} Imported tasks are always added as new records; existing, snoozed or archived tasks are never changed.</p>
+    <div class="row"><div class="checks"><label><input type="checkbox" id="imRenum"> Renumber the Active register after import</label><label><input type="checkbox" id="imSel" checked> Tick imported tasks</label></div></div>
+    <div class="tablewrap" style="overflow-x:auto"><table class="imp-table"><thead><tr><th></th><th>Cat</th><th>Subj</th><th>Gist</th><th>Action</th><th>Target</th><th>Remarks</th></tr></thead><tbody>
+    ${res.tasks.map((t,i)=>{const ex=existing.get((t.subj||'').toLowerCase().trim());return `<tr><td><input type="checkbox" data-i="${i}" ${pick.has(i)?'checked':''}></td><td>${esc(t.cat)}</td><td><b>${esc(t.subj)}</b>${dupes.has(i)?` <span class="flag soon">exists in ${esc(tabName(ex))}</span>`:''}</td><td style="white-space:pre-line;max-width:380px">${esc(t.comments)}</td><td>${esc(t.priority)}${t.status==='Completed'?' · Completed':''}</td><td>${esc(fmtDue(t))}</td><td>${esc(t.remarks)}</td></tr>`;}).join('')}
+    </tbody></table></div>`,footer:`<button class="btn" data-close>Cancel</button><button class="btn primary" id="imGo">${icon('upload')}<span>Import ${pick.size}</span></button>`});
+  d.querySelector('tbody').addEventListener('change',e=>{const i=+e.target.dataset.i;e.target.checked?pick.add(i):pick.delete(i);d.querySelector('#imGo span').textContent=`Import ${pick.size}`;});
+  d.querySelector('#imGo').onclick=()=>{
+    if(!pick.size){toast('Tick at least one task');return;}
+    res.cats.forEach(c=>{if(!settings.categories.includes(c))settings.categories.push(c);});
+    const added=[];
+    res.tasks.forEach((t,i)=>{if(!pick.has(i))return;const nt=normTask(Object.assign({},t,{ser:'',stage:'open'}));
+      if(isDone(nt))nt.completedAt=new Date().toISOString();
+      placeSer(nt,stageOf(nt),null);tasks.push(nt);logEv(nt,'imported',{newSer:serLabel(nt),from:fname});added.push(nt);});
+    if(d.querySelector('#imSel').checked)added.forEach(t=>ui.selected.add(t.id));
+    added.forEach(saveTask);saveSettings();
+    if(d.querySelector('#imRenum').checked)renumberStage('active');
+    d._close();renderAll();toast(`Imported ${plural(added.length,'task')}`);
+  };
+}
+
+/* ================= Backup ================= */
+function backupBlob(){return new Blob([JSON.stringify({app:'hilmi-task-suite',version:SCHEMA,exportedAt:new Date().toISOString(),settings,tasks},null,1)],{type:'application/json'});}
+
+/* ================= Serial renumbering (per register) ================= */
+function renumberStage(stage){
+  const k=SER_KEY[stage],o=settings.categories;let n=1,changed=0;
+  const byCat=stage==='active'||stage==='completed';
+  tasks.filter(t=>inStage(t,stage)).sort((a,b)=>(byCat?(((o.indexOf(a.cat)+1)||99)-((o.indexOf(b.cat)+1)||99)):0)||serVal(a[k])-serVal(b[k])||cmpNum(a.createdAt,b.createdAt))
+    .forEach(t=>{const s=String(n++);if(String(t[k]||'')!==s){t[k]=s;saveTask(t);changed++;}});
+  return changed;
+}
+async function renumberCurrent(){
+  const tab=ui.quick?'active':ui.filter;
+  if(tab==='trash'){toast('Trash has no serial numbers to renumber');return;}
+  const stages=tab==='all'?STAGES.slice():[tab];
+  const label=tab==='all'?'each register (Active, Completed, Snooze and Archive) separately':`the ${tabName(tab)} register`;
+  const how=stages.some(s=>s==='active'||s==='completed')?' Active and Completed are numbered in category order.':'';
+  if(!await confirmBox(`Renumber ${label} from 1? Other registers are not touched.${how}`,'Renumber'))return;
+  const snap=snapshotOf(tasks.filter(t=>!t.deleted&&stages.includes(stageOf(t))));
+  let n=0;stages.forEach(s=>n+=renumberStage(s));
+  renderAll();toast(n?`Renumbered ${plural(n,'task')}`:'Serials were already in order',n?[{label:'Undo',fn:()=>restoreSnap(snap)}]:null);
 }
 function sampleTasks(){
-  const add=(n)=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
   return [
-    {ser:'1',cat:'Adm',subj:'Monthly office supplies order',comments:'Check stock of stationery and printer toner\nPrepare requisition list\nGet approval and place order',assignedStatus:'Assigned',assignee:'Office Assistant',priority:'IMP',status:'In Progress',targetDate:add(-2),remarks:'Example task: delete when done'},
-    {ser:'2',cat:'Misc',subj:'Arrange weekly coordination meeting',comments:'Book the conference room\nCirculate agenda to all sections\nPrepare attendance sheet',assignedStatus:'Assigned',assignee:'Admin Clerk',priority:'Pri',status:'To Do',targetDate:add(2),remarks:'Example task: delete when done'},
-    {ser:'3',cat:'Review',subj:'Review annual leave plan',comments:'Collect leave requests from all staff\nCheck for overlaps in key appointments\nPut up for approval',assignedStatus:'Unassigned',assignee:'',priority:'Routine',status:'To Do',targetDate:add(10),remarks:'Example task: delete when done'}
-  ].map(normTask);
+    {cat:'Adm',subj:'Monthly office supplies order',comments:'Check stock of stationery and printer toner\nPrepare requisition list\nGet approval and place order',assignedStatus:'Assigned',assignee:'Office Assistant',priority:'IMP',status:'In Progress',targetDate:addDaysYMD(-2),remarks:'Example task: delete when done'},
+    {cat:'Misc',subj:'Arrange weekly coordination meeting',comments:'Book the conference room\nCirculate agenda to all sections\nPrepare attendance sheet',assignedStatus:'Assigned',assignee:'Admin Clerk',priority:'Pri',status:'To Do',targetDate:addDaysYMD(2),remarks:'Example task: delete when done'},
+    {cat:'Review',subj:'Review annual leave plan',comments:'Collect leave requests from all staff\nCheck for overlaps in key appointments\nPut up for approval',assignedStatus:'Unassigned',assignee:'',priority:'Routine',status:'To Do',targetDate:addDaysYMD(10),remarks:'Example task: delete when done'}
+  ].map(x=>{const t=normTask(x);placeSer(t,'active',null);logEv(t,'created',{newSer:serLabel(t)});tasks.push(t);return t;});
 }
 function toggleTheme(){
   const r=document.documentElement;const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
@@ -1368,6 +2177,7 @@ function toggleTheme(){
 }
 
 /* ================= Wire up ================= */
+function switchTab(tab){ui.filter=tab;ui.quick='';saveView();renderAll();}
 function bindChrome(){
   const menu=$('#menu'),mb=$('#btnMenu');
   const placeMenu=()=>{
@@ -1383,49 +2193,52 @@ function bindChrome(){
   window.addEventListener('resize',()=>{if(!menu.hidden)placeMenu();});
   window.addEventListener('scroll',()=>{if(!menu.hidden)placeMenu();},{passive:true});
   menu.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;menu.hidden=true;
-    ({columns:openColumnsDlg,categories:openCategoriesDlg,contacts:openContactsDlg,renumber:()=>renumber(false),exportfmt:()=>openExportFmtDlg(false),calendar:openCalendarDlg,sync:openSyncDlg,theme:toggleTheme})[b.dataset.act]();});
+    ({columns:openColumnsDlg,categories:openCategoriesDlg,contacts:openContactsDlg,templates:()=>openTemplatesDlg(null),renumber:renumberCurrent,exportfmt:()=>openExportFmtDlg(false),calendar:openCalendarDlg,sync:openSyncDlg,theme:toggleTheme})[b.dataset.act]();});
   $('#btnAdd').onclick=()=>openTaskDlg(null);
   $('#btnImport').onclick=()=>$('#fileWord').click();
-  $('#btnExport').onclick=exportWord;
-  $('#btnPreview').onclick=openPreview;
+  $('#btnExport').onclick=()=>exportWord();
+  $('#btnPreview').onclick=()=>openPreview();
   $('#fileWord').onchange=e=>{handleWordFile(e.target.files[0]);e.target.value='';};
   $('#fileBackup').onchange=e=>{restoreFile(e.target.files[0]);e.target.value='';};
   $('#btnRemindAll').onclick=remindAll;
-  $('#search').addEventListener('input',renderTable);
-  $('#sortBy').onchange=e=>{ui.sort=e.target.value;lsSet('hilmi_sort',ui.sort);renderTable();};
-  $('#statusTabs').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;ui.filter=b.dataset.f;ui.quick='';renderAll();});
-  $$('.stat').forEach(b=>b.onclick=()=>{const q=b.dataset.quick;if(!q){ui.quick='';ui.filter='active';}else ui.quick=ui.quick===q?'':q;if(ui.quick&&ui.filter==='trash')ui.filter='active';renderAll();});
+  $('#search').addEventListener('input',()=>{renderCats();renderTable();});
+  $('#sortBy').onchange=e=>{ui.sort=e.target.value;saveView();renderTable();};
+  $('#groupBy').onchange=e=>{ui.group=e.target.value;saveView();renderTable();};
+  $('#statusTabs').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b)switchTab(b.dataset.f);});
+  $$('.stat').forEach(b=>b.onclick=()=>{
+    const q=b.dataset.quick;
+    if(q){ui.quick=ui.quick===q?'':q;ui.filter='active';saveView();renderAll();}
+    else switchTab(b.dataset.tab);
+  });
   $('#cats').addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(!b)return;ui.cat=b.dataset.cat;renderAll();});
   $('#chkAll').onchange=e=>{const v=visibleTasks();if(e.target.checked)v.forEach(t=>ui.selected.add(t.id));else v.forEach(t=>ui.selected.delete(t.id));renderTable();};
   $('#btnInvert').onclick=()=>{visibleTasks().forEach(t=>ui.selected.has(t.id)?ui.selected.delete(t.id):ui.selected.add(t.id));renderTable();};
-  $('#btnBulkDone').onclick=()=>{const s=selectedVisible().filter(t=>!isDone(t));if(!s.length){toast('Select active tasks first');return;}s.forEach(t=>{t.status='Completed';saveTask(t);});renderAll();toast(`${s.length} marked completed`,()=>{s.forEach(t=>{t.status='In Progress';saveTask(t);});renderAll();});};
-  $('#btnBulkWa').onclick=()=>{const s=selectedVisible();openWaDlg(s,s.length>0&&s.every(isOverdue));};
-  $('#btnBulkDel').onclick=async()=>{
-    const s=selectedVisible();if(!s.length){toast('No tasks selected');return;}
-    if(ui.filter==='trash'){if(!await confirmBox(`Permanently delete ${s.length} task${s.length>1?'s':''}?`,'Delete forever',true))return;s.forEach(t=>{removeTaskStore(t.id);ui.selected.delete(t.id);});tasks=tasks.filter(t=>!s.includes(t));renderAll();return;}
-    s.forEach(t=>{t.deleted=true;ui.selected.delete(t.id);saveTask(t);});renderAll();
-    toast(`${s.length} moved to Trash`,()=>{s.forEach(t=>{t.deleted=false;saveTask(t);});renderAll();});
-  };
+  $('#btnClearSel').onclick=()=>{visibleTasks().forEach(t=>ui.selected.delete(t.id));renderTable();};
+  $('#bulkActs').addEventListener('click',e=>{const b=e.target.closest('[data-bulk]');if(!b||b.disabled)return;bulkAction(b.dataset.bulk,selectedVisible());});
+  $('#bulkActs').addEventListener('change',e=>{if(e.target.id==='bulkMoveTo'&&e.target.value){const v=e.target.value;e.target.value='';moveSelectedTo(v);}});
   $('#empty').addEventListener('click',e=>{const b=e.target.closest('[data-empty]');if(!b)return;const a=b.dataset.empty;
-    if(a==='add')openTaskDlg(null);else if(a==='import')$('#fileWord').click();else if(a==='restore')$('#fileBackup').click();
-    else if(a==='sample'){const s=sampleTasks();s.forEach(t=>{tasks.push(t);ui.selected.add(t.id);saveTask(t);});renderAll();toast('Example tasks added. Delete them when you are done.');}});
+    if(a==='add')openTaskDlg(null);else if(a==='import')$('#fileWord').click();else if(a==='restore')restoreFromPicker();
+    else if(a==='sample'){const s=sampleTasks();s.forEach(saveTask);renderAll();toast('Example tasks added. Delete them when you are done.');}});
 }
 
 function start(){
   const bn=document.getElementById('bootNotice');if(bn)bn.remove();
   const th=lsGet('hilmi_theme');if(th)document.documentElement.setAttribute('data-theme',th);
-  const so=lsGet('hilmi_sort');if(so){ui.sort=so;$('#sortBy').value=so;}
+  const view=lsGet('hilmi_view_v10');
+  if(view){if(view.sort&&SORTS.some(s=>s.v===view.sort))ui.sort=view.sort;if(view.group&&GROUPS.some(g=>g[0]===view.group))ui.group=view.group;if(['active','completed','snoozed','archived','all','trash'].includes(view.filter))ui.filter=view.filter;}
+  else{const old=lsGet('hilmi_sort');if(old){ui.sort=LEGACY_SORT[old]||'ser-asc';if(old==='cat')ui.group='cat';}}
   loadLocal();
   localSnapshot={tasks:tasks.filter(t=>!t.deleted),settings:plain(settings)};
-  tasks.filter(t=>!t.deleted).forEach(t=>ui.selected.add(t.id));
   bindChrome();bindTable();renderAll();
-  bootCloud().then(()=>{tasks.filter(t=>!t.deleted).forEach(t=>ui.selected.add(t.id));requestRender();});
-  // select new tasks arriving from other devices too
-  let known=new Set(tasks.map(t=>t.id));
-  setInterval(()=>{let ch=false;tasks.forEach(t=>{if(!known.has(t.id)){known.add(t.id);if(!t.deleted){ui.selected.add(t.id);ch=true;}}});if(ch)requestRender();},2000);
-  // re-evaluate overdue flags after midnight
-  let day=todayMs();setInterval(()=>{if(todayMs()!==day){day=todayMs();requestRender();}},60000);
+  wakeDueTasks();
+  bootCloud().then(()=>{requestRender();wakeDueTasks();setTimeout(autoFolderBackup,4000);});
+  setTimeout(autoFolderBackup,6000);
+  // re-evaluate due-date colours after midnight and wake snoozed tasks whose date has come
+  let day=todayMs();setInterval(()=>{if(todayMs()!==day){day=todayMs();requestRender();}wakeDueTasks();autoFolderBackup();},60000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){requestRender();wakeDueTasks();}});
 }
+// test hook (read-only helpers, no effect on the app)
+window.__mts={get tasks(){return tasks;},get settings(){return settings;},stageOf,dueInfo,serLabel,buildMessage,applyMove,fillBlock,ui};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
 </script>
